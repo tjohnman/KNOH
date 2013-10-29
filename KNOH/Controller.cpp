@@ -10,7 +10,15 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	_m_ImgHigh.loadFromFile("gfx/High.png");
 
 	_m_KNOH.loadFromFile("gfx/KNOH.png");
-	
+
+	_m_DefaultFont.loadFromFile("gfx/OpenSans-Regular.ttf");
+
+	_m_HelpText.setFont(_m_DefaultFont);
+	_m_HelpText.setString("1. Metal 2. N-Silicon 3. P-Silicon 4. Via | Use left mouse to paint, right mouse to erase. | Tab toggles testing panel.");
+	_m_HelpText.setPosition(10, _m_Height-26);
+	_m_HelpText.setColor(sf::Color::White);
+	_m_HelpText.setCharacterSize(12);
+
 	_m_Grid[0] = new _t_cell[width*height/256];
 	_m_Grid[1] = new _t_cell[width*height/256];
 	_m_ViaGrid = new bool[width*height/256];
@@ -87,6 +95,7 @@ void Controller::draw(sf::RenderWindow * window)
 	window->draw(_m_GridCanvasSprite);
 	window->draw(_m_CanvasSprite);
 	window->draw(_m_ObjectCanvasSprite);
+	window->draw(_m_HelpText);
 }
 
 void Controller::redrawCanvas()
