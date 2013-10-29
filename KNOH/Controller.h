@@ -71,6 +71,7 @@ private:
 	sf::RenderTexture _m_Canvas, _m_GridCanvas, _m_ObjectCanvas;
 	sf::Sprite _m_CanvasSprite, _m_GridCanvasSprite, _m_ObjectCanvasSprite;
 	sf::Texture _m_ImgMetal, _m_ImgPSilicon, _m_ImgNSilicon, _m_ImgVia, _m_ImgGrid, _m_ImgHigh;
+	sf::Texture _m_KNOH;
 
 	_t_cell * _getCellAt(unsigned int layer, unsigned int x, unsigned int y);
 	bool _setCellAt(unsigned int layer, unsigned int x, unsigned int y, _t_cell * cell, bool copyConnections = false);

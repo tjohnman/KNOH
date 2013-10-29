@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width), _m_Height(height), _m_GridWidth(width/16), _m_GridHeight(height/16)
+Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width), _m_Height(height), _m_GridWidth(width/16), _m_GridHeight(height/16-2)
 {
 	_m_ImgMetal.loadFromFile("gfx/Metal.png");
 	_m_ImgPSilicon.loadFromFile("gfx/PSilicon.png");
@@ -8,6 +8,8 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	_m_ImgVia.loadFromFile("gfx/Via.png");
 	_m_ImgGrid.loadFromFile("gfx/Grid.png");
 	_m_ImgHigh.loadFromFile("gfx/High.png");
+
+	_m_KNOH.loadFromFile("gfx/KNOH.png");
 	
 	_m_Grid[0] = new _t_cell[width*height/256];
 	_m_Grid[1] = new _t_cell[width*height/256];
@@ -24,23 +26,32 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	_m_ObjectCanvasSprite.setTexture(_m_ObjectCanvas.getTexture());
 
 	sf::Sprite sprite;
+	sf::Sprite logoSprite;
+	logoSprite.setTexture(_m_KNOH);
 	
 	_m_GridCanvas.clear();
 
 	sprite.setTexture(_m_ImgGrid);
 	for(unsigned int x=0; x<width/16; ++x)
 	{
-		for(unsigned int y=0; y<height/16; ++y)
+		for(unsigned int y=0; y<height/16-2; ++y)
 		{
 			sprite.setPosition((float)x*16, (float)y*16);
 			_m_GridCanvas.draw(sprite);
 		}
 	}
 
+	sprite.setTexture(_m_KNOH);
+	sprite.setTextureRect(sf::IntRect(0, 0, 128, 32));
+	sprite.setColor(sf::Color(255, 255, 255, 60));
+	sprite.setPosition(_m_Width/2 - 64, _m_Height/2 - 32);
+	_m_GridCanvas.draw(sprite);
+
 	_m_GridCanvas.display();
 
 	_m_ObjectCanvas.clear(sf::Color(0, 0, 0, 0));
-
+	
+	sprite.setColor(sf::Color(255, 255, 255, 255));
 	sprite.setTexture(_m_ImgHigh);
 	sprite.setTextureRect(sf::IntRect(0, 0, 48, 48));
 	sprite.setPosition(16, 16);
@@ -49,10 +60,10 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	sprite.setPosition(_m_Width-64, 16);
 	_m_ObjectCanvas.draw(sprite);
 
-	sprite.setPosition(((_m_Width-64)/16)*16, ((_m_Height-64)/16)*16);
+	sprite.setPosition(((_m_Width-64)/16)*16, ((_m_Height-96)/16)*16);
 	_m_ObjectCanvas.draw(sprite);
 
-	sprite.setPosition(16, ((_m_Height-64)/16)*16);
+	sprite.setPosition(16, ((_m_Height-96)/16)*16);
 	_m_ObjectCanvas.draw(sprite);
 
 	_m_ObjectCanvas.display();
@@ -157,41 +168,46 @@ void Controller::update(float delta)
 
 	if(_m_MouseLeftIsDown)
 	{
-		if(_getCellAt(g, gridX, gridY)->material == 0)
+		if(_getCellAt(g, gridX, gridY))
 		{
-			_setCellAt(g, gridX, gridY, &_m_CurrentBrush, false);
-		}
+			if(_getCellAt(g, gridX, gridY)->material == 0)
+			{
+				_setCellAt(g, gridX, gridY, &_m_CurrentBrush, false);
+			}
 
-		unsigned int relx = m_MousePosition.x - (m_MousePosition.x/16)*16;
-		unsigned int rely = m_MousePosition.y - (m_MousePosition.y/16)*16;
+			unsigned int relx = m_MousePosition.x - (m_MousePosition.x/16)*16;
+			unsigned int rely = m_MousePosition.y - (m_MousePosition.y/16)*16;
 
-		if(gridX > 0 && relx < 4 && _getCellAt(g, gridX-1, gridY)->material)
-		{
-			_getCellAt(g, gridX-1, gridY)->east = true;
-			_getCellAt(g, gridX, gridY)->west = true;
+			if(_getCellAt(g, gridX-1, gridY) && gridX > 0 && relx < 4 && _getCellAt(g, gridX-1, gridY)->material)
+			{
+				_getCellAt(g, gridX-1, gridY)->east = true;
+				_getCellAt(g, gridX, gridY)->west = true;
+			}
+			if(_getCellAt(g, gridX+1, gridY) && gridX < _m_GridWidth && relx >= 12 && _getCellAt(g, gridX+1, gridY)->material)
+			{
+				_getCellAt(g, gridX+1, gridY)->west = true;
+				_getCellAt(g, gridX, gridY)->east = true;
+			}
+			if(_getCellAt(g, gridX, gridY-1) && gridY > 0 && rely < 4 && _getCellAt(g, gridX, gridY-1)->material)
+			{
+				_getCellAt(g, gridX, gridY-1)->south = true;
+				_getCellAt(g, gridX, gridY)->north = true;
+			}
+			if(_getCellAt(g, gridX, gridY+1) && gridY < _m_GridWidth && rely >= 12 && _getCellAt(g, gridX, gridY+1)->material)
+			{
+				_getCellAt(g, gridX, gridY+1)->north = true;
+				_getCellAt(g, gridX, gridY)->south = true;
+			}
+			redrawCanvas();
 		}
-		if(gridX < _m_GridWidth && relx >= 12 && _getCellAt(g, gridX+1, gridY)->material)
-		{
-			_getCellAt(g, gridX+1, gridY)->west = true;
-			_getCellAt(g, gridX, gridY)->east = true;
-		}
-		if(gridY > 0 && rely < 4 && _getCellAt(g, gridX, gridY-1)->material)
-		{
-			_getCellAt(g, gridX, gridY-1)->south = true;
-			_getCellAt(g, gridX, gridY)->north = true;
-		}
-		if(gridY < _m_GridWidth && rely >= 12 && _getCellAt(g, gridX, gridY+1)->material)
-		{
-			_getCellAt(g, gridX, gridY+1)->north = true;
-			_getCellAt(g, gridX, gridY)->south = true;
-		}
-
-		redrawCanvas();
 	}
 	if(_m_MouseRightIsDown)
 	{
-		_setCellAt(g, gridX, gridY, NULL);
-		redrawCanvas();
+		if(_getCellAt(g, gridX, gridY))
+		{
+			_setCellAt(g, gridX, gridY, NULL);
+			redrawCanvas();
+		}
 	}
 }
 
