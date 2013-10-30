@@ -7,7 +7,12 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	_m_ImgNSilicon.loadFromFile("gfx/NSilicon.png");
 	_m_ImgVia.loadFromFile("gfx/Via.png");
 	_m_ImgGrid.loadFromFile("gfx/Grid.png");
+	
 	_m_ImgHigh.loadFromFile("gfx/High.png");
+	_m_ImgA.loadFromFile("gfx/A.png");
+	_m_ImgB.loadFromFile("gfx/B.png");
+	_m_ImgC.loadFromFile("gfx/C.png");
+	_m_ImgD.loadFromFile("gfx/D.png");
 
 	_m_KNOH.loadFromFile("gfx/KNOH.png");
 
@@ -52,7 +57,7 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	sprite.setTexture(_m_KNOH);
 	sprite.setTextureRect(sf::IntRect(0, 0, 128, 32));
 	sprite.setColor(sf::Color(255, 255, 255, 60));
-	sprite.setPosition(_m_Width/2 - 64, _m_Height/2 - 32);
+	sprite.setPosition(_m_Width/2 - 64, _m_Height/2 - 64);
 	_m_GridCanvas.draw(sprite);
 
 	_m_GridCanvas.display();
@@ -72,6 +77,34 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	_m_ObjectCanvas.draw(sprite);
 
 	sprite.setPosition(16, ((_m_Height-96)/16)*16);
+	_m_ObjectCanvas.draw(sprite);
+
+	sprite.setTexture(_m_ImgA);
+	sprite.setPosition(16, 80);
+	_m_ObjectCanvas.draw(sprite);
+
+	sprite.setPosition(_m_Width-64, 80);
+	_m_ObjectCanvas.draw(sprite);
+
+	sprite.setTexture(_m_ImgB);
+	sprite.setPosition(16, 144);
+	_m_ObjectCanvas.draw(sprite);
+	
+	sprite.setPosition(_m_Width-64, 144);
+	_m_ObjectCanvas.draw(sprite);
+
+	sprite.setTexture(_m_ImgC);
+	sprite.setPosition(16, 208);
+	_m_ObjectCanvas.draw(sprite);
+	
+	sprite.setPosition(_m_Width-64, 208);
+	_m_ObjectCanvas.draw(sprite);
+
+	sprite.setTexture(_m_ImgD);
+	sprite.setPosition(16, 272);
+	_m_ObjectCanvas.draw(sprite);
+	
+	sprite.setPosition(_m_Width-64, 272);
 	_m_ObjectCanvas.draw(sprite);
 
 	_m_ObjectCanvas.display();

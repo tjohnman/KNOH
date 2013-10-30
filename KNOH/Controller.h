@@ -70,7 +70,8 @@ private:
 
 	sf::RenderTexture _m_Canvas, _m_GridCanvas, _m_ObjectCanvas;
 	sf::Sprite _m_CanvasSprite, _m_GridCanvasSprite, _m_ObjectCanvasSprite;
-	sf::Texture _m_ImgMetal, _m_ImgPSilicon, _m_ImgNSilicon, _m_ImgVia, _m_ImgGrid, _m_ImgHigh;
+	sf::Texture _m_ImgMetal, _m_ImgPSilicon, _m_ImgNSilicon, _m_ImgVia, _m_ImgGrid;
+	sf::Texture _m_ImgA, _m_ImgB, _m_ImgC, _m_ImgD, _m_ImgHigh;
 	sf::Texture _m_KNOH;
 	sf::Font _m_DefaultFont;
 	sf::Text _m_HelpText;
