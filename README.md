@@ -12,6 +12,8 @@ Download
 You can download a preliminary build for Windows [here](https://dl.dropboxusercontent.com/u/9554756/KNOH/KNOH-pre1.zip) (version pre1).
 This is a work in progress and feedback is appreciated.
 
+Here's a screensot: [*click*](https://dl.dropboxusercontent.com/u/9554756/KNOH/screenshot1.png)
+
 SFML
 ----
 
