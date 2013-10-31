@@ -90,6 +90,8 @@ private:
 
 	Simulator * _m_Simulator;
 
+	bool _isInline(unsigned int layer, unsigned int x, unsigned int y);
+
 	bool _setCellAt(unsigned int layer, unsigned int x, unsigned int y, t_cell * cell, bool copyConnections = false);
 
 	void _drawDecoration(sf::RenderTexture * canvas, const sf::Texture &texture, unsigned int x, unsigned int y, unsigned char alpha = 255);

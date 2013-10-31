@@ -232,25 +232,43 @@ void Controller::update(float delta)
 				unsigned int relx = m_MousePosition.x - (m_MousePosition.x/16)*16;
 				unsigned int rely = m_MousePosition.y - (m_MousePosition.y/16)*16;
 
-				if(getCellAt(g, gridX-1, gridY) && gridX > 0 && relx < 4 && getCellAt(g, gridX-1, gridY)->material)
+				t_cell * cell = getCellAt(g, gridX, gridY);
+				t_cell * northCell = getCellAt(g, gridX, gridY-1);
+				t_cell * eastCell = getCellAt(g, gridX+1, gridY);
+				t_cell * southCell = getCellAt(g, gridX, gridY+1);
+				t_cell * westCell = getCellAt(g, gridX-1, gridY);
+
+				if(westCell && gridX > 0 && relx < 4 && westCell->material)
 				{
-					getCellAt(g, gridX-1, gridY)->east = true;
-					getCellAt(g, gridX, gridY)->west = true;
+					if(westCell->material == cell->material || _isInline(g, gridX-1, gridY))
+					{
+						westCell->east = true;
+						cell->west = true;
+					}
 				}
-				if(getCellAt(g, gridX+1, gridY) && gridX < _m_GridWidth && relx >= 12 && getCellAt(g, gridX+1, gridY)->material)
+				if(eastCell && gridX < _m_GridWidth && relx >= 12 && eastCell->material)
 				{
-					getCellAt(g, gridX+1, gridY)->west = true;
-					getCellAt(g, gridX, gridY)->east = true;
+					if(eastCell->material == cell->material || _isInline(g, gridX+1, gridY))
+					{
+						eastCell->west = true;
+						cell->east = true;
+					}
 				}
-				if(getCellAt(g, gridX, gridY-1) && gridY > 0 && rely < 4 && getCellAt(g, gridX, gridY-1)->material)
+				if(northCell && gridY > 0 && rely < 4 && northCell->material)
 				{
-					getCellAt(g, gridX, gridY-1)->south = true;
-					getCellAt(g, gridX, gridY)->north = true;
+					if(northCell->material == cell->material || _isInline(g, gridX, gridY-1))
+					{
+						northCell->south = true;
+						cell->north = true;
+					}
 				}
-				if(getCellAt(g, gridX, gridY+1) && gridY < _m_GridWidth && rely >= 12 && getCellAt(g, gridX, gridY+1)->material)
+				if(southCell && gridY < _m_GridWidth && rely >= 12 && southCell->material)
 				{
-					getCellAt(g, gridX, gridY+1)->north = true;
-					getCellAt(g, gridX, gridY)->south = true;
+					if(southCell->material == cell->material || _isInline(g, gridX, gridY+1))
+					{
+						southCell->north = true;
+						cell->south = true;
+					}
 				}
 			}
 			// Place vias
@@ -283,6 +301,21 @@ void Controller::update(float delta)
 	}
 
 	_m_Simulator->update(delta);
+}
+
+bool Controller::_isInline(unsigned int layer, unsigned int x, unsigned int y)
+{
+	if(x >= _m_GridWidth || y >= _m_GridHeight) return false;
+
+	t_cell * cell = getCellAt(layer, x, y);
+
+	t_cell * north = getCellAt(layer, x, y-1);
+	t_cell * east = getCellAt(layer, x+1, y);
+	t_cell * south = getCellAt(layer, x, y+1);
+	t_cell * west = getCellAt(layer, x-1, y);
+
+	return ((north && north->material == cell->material && south && south->material == cell->material) ||
+		(east && east->material == cell->material && west && west->material == cell->material));
 }
 
 bool Controller::_setCellAt(unsigned int layer, unsigned int x, unsigned int y, t_cell * cell, bool copyConnections)

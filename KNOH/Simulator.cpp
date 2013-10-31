@@ -4,7 +4,7 @@
 Simulator::Simulator(Controller * c) : _m_Controller(c)
 {
 	m_Running = true;
-	m_Delay = 100;
+	m_Delay = 50;
 }
 
 Simulator::~Simulator()
@@ -32,9 +32,6 @@ void Simulator::update(float delta)
 			Controller::t_cell * cell = _m_Controller->getCellAt(1, x, y);
 			if(cell && cell->material)
 			{
-				// Don't re-schedule if already fired
-				if(cell->high) continue;
-
 				// Determine input
 				Controller::t_cell * north = NULL, * east = NULL, * south = NULL, * west = NULL, * metal = NULL;
 				if(cell->north) north = _m_Controller->getCellAt(1, x, y-1);
@@ -51,6 +48,16 @@ void Simulator::update(float delta)
 
 				// Determine if gate
 				unsigned char gateMaterial = (cell->material == 'n' ? 'p' : 'n');
+
+				unsigned short sameCount = 0, otherCount = 0;
+				if(north && north->material == cell->material && south && south->material == cell->material) sameCount += 2;
+				if(east && east->material == cell->material && west && west->material == cell->material) sameCount += 2;
+
+				if(north && north->material == gateMaterial) ++otherCount;
+				if(east && east->material == gateMaterial) ++otherCount;
+				if(south && south->material == gateMaterial) ++otherCount;
+				if(west && west->material == gateMaterial) ++otherCount;
+
 				bool isActive = (north && north->material == gateMaterial && north->high) ||
 					(east && east->material == gateMaterial && east->high) ||
 					(south && south->material == gateMaterial && south->high) ||
@@ -59,8 +66,8 @@ void Simulator::update(float delta)
 				if(!isActive) continue;
 
 				// Schedule gate for propagation phase
-				if(cell->material == 'p') _m_activePNPGates.push_back(cell);
-				else if(cell->material == 'n') _m_activeNPNGates.push_back(cell);
+				if(cell->material == 'p' && otherCount < sameCount) _m_activePNPGates.push_back(cell);
+				else if(cell->material == 'n' && otherCount < sameCount) _m_activeNPNGates.push_back(cell);
 			}
 		}
 
@@ -115,19 +122,24 @@ void Simulator::_propagate(unsigned int layer, unsigned int x, unsigned int y)
 		{
 			// Is this a gate?
 			unsigned char gateMaterial = (cell->material == 'n' ? 'p' : 'n');
-			bool isGate = (north && north->material == gateMaterial) ||
-						(east && east->material == gateMaterial) ||
-						(south && south->material == gateMaterial) ||
-						(west && west->material == gateMaterial);
 
-			if(isGate)
+			unsigned short sameCount = 0, otherCount = 0;
+			if(north && north->material == cell->material && south && south->material == cell->material) sameCount += 2;
+			if(east && east->material == cell->material && west && west->material == cell->material) sameCount += 2;
+
+			if(north && north->material == gateMaterial) ++otherCount;
+			if(east && east->material == gateMaterial) ++otherCount;
+			if(south && south->material == gateMaterial) ++otherCount;
+			if(west && west->material == gateMaterial) ++otherCount;
+			
+			if(otherCount > 0 && otherCount < sameCount)
 			{
 				if(cell->material == 'p')
 				{
 					cell->high = true;
 					for(unsigned int j=0; j<_m_activePNPGates.size(); ++j)
 					{
-						if(_m_activePNPGates[j] == via)
+						if(_m_activePNPGates[j] == cell)
 						{
 							cell->high = false;
 							break;
@@ -139,7 +151,7 @@ void Simulator::_propagate(unsigned int layer, unsigned int x, unsigned int y)
 					cell->high = false;
 					for(unsigned int j=0; j<_m_activeNPNGates.size(); ++j)
 					{
-						if(_m_activeNPNGates[j] == via)
+						if(_m_activeNPNGates[j] == cell)
 						{
 							cell->high = true;
 							break;
