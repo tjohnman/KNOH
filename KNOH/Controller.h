@@ -26,6 +26,7 @@ private:
 	struct _t_cell
 	{
 		bool metal;
+		bool high;
 		bool north, east, south, west;
 		unsigned char material;
 
@@ -36,6 +37,7 @@ private:
 			east = false;
 			south = false;
 			west = false;
+			high = false;
 			material = 0;
 		}
 
@@ -57,6 +59,7 @@ private:
 			east = false;
 			south = false;
 			west = false;
+			high = false;
 			material = 0;
 		}
 	};
