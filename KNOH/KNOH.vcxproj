@@ -93,6 +93,7 @@
   <ItemGroup>
     <ClInclude Include="Controller.h" />
     <ClInclude Include="includes.h" />
+    <ClInclude Include="Simulator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

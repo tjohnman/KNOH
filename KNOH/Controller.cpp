@@ -27,8 +27,8 @@ void Controller::init()
 	_m_HelpText.setCharacterSize(12);
 
 	// Initialize layers
-	_m_Grid[0] = new _t_cell[_m_Width*_m_Height/256];
-	_m_Grid[1] = new _t_cell[_m_Width*_m_Height/256];
+	_m_Grid[0] = new t_cell[_m_Width*_m_Height/256];
+	_m_Grid[1] = new t_cell[_m_Width*_m_Height/256];
 	_m_ViaGrid = new bool[_m_Width*_m_Height/256];
 	for(unsigned int i=0; i<_m_Width*_m_Height/256; ++i) _m_ViaGrid[i] = false;
 
@@ -120,7 +120,7 @@ void Controller::redrawCanvas()
 		{
 			unsigned int gridx = i%_m_GridWidth;
 			unsigned int gridy = i/_m_GridWidth;
-			_t_cell * cell = _getCellAt(g, gridx, gridy);
+			t_cell * cell = getCellAt(g, gridx, gridy);
 
 			if(!cell) continue;
 
@@ -199,12 +199,12 @@ void Controller::update(float delta)
 
 	if(_m_MouseLeftIsDown)
 	{
-		if(_getCellAt(g, gridX, gridY))
+		if(getCellAt(g, gridX, gridY))
 		{
 			if(_m_BrushIndex != 4)
 			{
 				// Place materials
-				if(_getCellAt(g, gridX, gridY)->material == 0)
+				if(getCellAt(g, gridX, gridY)->material == 0)
 				{
 					_setCellAt(g, gridX, gridY, &_m_CurrentBrush, false);
 				}
@@ -212,32 +212,32 @@ void Controller::update(float delta)
 				unsigned int relx = m_MousePosition.x - (m_MousePosition.x/16)*16;
 				unsigned int rely = m_MousePosition.y - (m_MousePosition.y/16)*16;
 
-				if(_getCellAt(g, gridX-1, gridY) && gridX > 0 && relx < 4 && _getCellAt(g, gridX-1, gridY)->material)
+				if(getCellAt(g, gridX-1, gridY) && gridX > 0 && relx < 4 && getCellAt(g, gridX-1, gridY)->material)
 				{
-					_getCellAt(g, gridX-1, gridY)->east = true;
-					_getCellAt(g, gridX, gridY)->west = true;
+					getCellAt(g, gridX-1, gridY)->east = true;
+					getCellAt(g, gridX, gridY)->west = true;
 				}
-				if(_getCellAt(g, gridX+1, gridY) && gridX < _m_GridWidth && relx >= 12 && _getCellAt(g, gridX+1, gridY)->material)
+				if(getCellAt(g, gridX+1, gridY) && gridX < _m_GridWidth && relx >= 12 && getCellAt(g, gridX+1, gridY)->material)
 				{
-					_getCellAt(g, gridX+1, gridY)->west = true;
-					_getCellAt(g, gridX, gridY)->east = true;
+					getCellAt(g, gridX+1, gridY)->west = true;
+					getCellAt(g, gridX, gridY)->east = true;
 				}
-				if(_getCellAt(g, gridX, gridY-1) && gridY > 0 && rely < 4 && _getCellAt(g, gridX, gridY-1)->material)
+				if(getCellAt(g, gridX, gridY-1) && gridY > 0 && rely < 4 && getCellAt(g, gridX, gridY-1)->material)
 				{
-					_getCellAt(g, gridX, gridY-1)->south = true;
-					_getCellAt(g, gridX, gridY)->north = true;
+					getCellAt(g, gridX, gridY-1)->south = true;
+					getCellAt(g, gridX, gridY)->north = true;
 				}
-				if(_getCellAt(g, gridX, gridY+1) && gridY < _m_GridWidth && rely >= 12 && _getCellAt(g, gridX, gridY+1)->material)
+				if(getCellAt(g, gridX, gridY+1) && gridY < _m_GridWidth && rely >= 12 && getCellAt(g, gridX, gridY+1)->material)
 				{
-					_getCellAt(g, gridX, gridY+1)->north = true;
-					_getCellAt(g, gridX, gridY)->south = true;
+					getCellAt(g, gridX, gridY+1)->north = true;
+					getCellAt(g, gridX, gridY)->south = true;
 				}
 			}
 			// Place vias
 			else if(gridX < _m_GridWidth && gridY < _m_GridHeight)
 			{
-				_t_cell * metal = _getCellAt(0, gridX, gridY);
-				_t_cell * silicon = _getCellAt(1, gridX, gridY);
+				t_cell * metal = getCellAt(0, gridX, gridY);
+				t_cell * silicon = getCellAt(1, gridX, gridY);
 
 				if(metal && silicon && metal->material == 'm' && silicon->material)
 				{
@@ -249,7 +249,7 @@ void Controller::update(float delta)
 	}
 	if(_m_MouseRightIsDown)
 	{
-		if(_getCellAt(g, gridX, gridY))
+		if(getCellAt(g, gridX, gridY))
 		{
 			if(_m_BrushIndex != 4)
 			{
@@ -263,27 +263,27 @@ void Controller::update(float delta)
 	}
 }
 
-bool Controller::_setCellAt(unsigned int layer, unsigned int x, unsigned int y, _t_cell * cell, bool copyConnections)
+bool Controller::_setCellAt(unsigned int layer, unsigned int x, unsigned int y, t_cell * cell, bool copyConnections)
 {
 	if(x >= _m_GridWidth || y >= _m_GridHeight) return false;
 
 	if(cell)
 	{
-		_getCellAt(layer, x, y)->copyFrom(cell, copyConnections);
+		getCellAt(layer, x, y)->copyFrom(cell, copyConnections);
 	}
 	else
 	{
-		_getCellAt(layer, x, y)->clear();
-		if(x > 0) _getCellAt(layer, x-1, y)->east = false;
-		if(x < _m_GridWidth) _getCellAt(layer, x+1, y)->west = false;
-		if(y > 0) _getCellAt(layer, x, y-1)->south = false;
-		if(y < _m_GridHeight) _getCellAt(layer, x, y+1)->north = false;
+		getCellAt(layer, x, y)->clear();
+		if(x > 0) getCellAt(layer, x-1, y)->east = false;
+		if(x < _m_GridWidth) getCellAt(layer, x+1, y)->west = false;
+		if(y > 0) getCellAt(layer, x, y-1)->south = false;
+		if(y < _m_GridHeight) getCellAt(layer, x, y+1)->north = false;
 	}
 
 	return true;
 }
 
-Controller::_t_cell * Controller::_getCellAt(unsigned int layer, unsigned int x, unsigned int y)
+Controller::t_cell * Controller::getCellAt(unsigned int layer, unsigned int x, unsigned int y)
 {
 	if(x >= _m_GridWidth || y >= _m_GridHeight) return NULL;
 	return &_m_Grid[layer][x+y*_m_GridWidth];

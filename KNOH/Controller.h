@@ -9,28 +9,14 @@ public:
 	Controller(unsigned int width, unsigned int height);
 	~Controller();
 
-	void onKeyPressed(sf::Event::KeyEvent event);
-	void onKeyReleased(sf::Event::KeyEvent event);
-	void onMouseDown(sf::Event::MouseButtonEvent event);
-	void onMouseUp(sf::Event::MouseButtonEvent event);
-
-	void init();
-
-	void draw(sf::RenderWindow * window);
-	void redrawCanvas();
-	void update(float delta);
-
-	sf::Vector2i m_MousePosition;
-
-private:
-	struct _t_cell
+	struct t_cell
 	{
 		bool metal;
 		bool high;
 		bool north, east, south, west;
 		unsigned char material;
 
-		_t_cell::_t_cell()
+		t_cell::t_cell()
 		{
 			metal = false;
 			north = false;
@@ -41,7 +27,7 @@ private:
 			material = 0;
 		}
 
-		void _t_cell::copyFrom(const _t_cell * other, bool copyConnections = false)
+		void t_cell::copyFrom(const t_cell * other, bool copyConnections = false)
 		{
 			if(copyConnections)
 			{
@@ -53,7 +39,7 @@ private:
 			material = other->material;
 		}
 
-		void _t_cell::clear()
+		void t_cell::clear()
 		{
 			north = false;
 			east = false;
@@ -64,11 +50,28 @@ private:
 		}
 	};
 
+	void onKeyPressed(sf::Event::KeyEvent event);
+	void onKeyReleased(sf::Event::KeyEvent event);
+	void onMouseDown(sf::Event::MouseButtonEvent event);
+	void onMouseUp(sf::Event::MouseButtonEvent event);
+
+	void init();
+
+	void draw(sf::RenderWindow * window);
+	void redrawCanvas();
+	void update(float delta);
+
+	t_cell * getCellAt(unsigned int layer, unsigned int x, unsigned int y);
+
+	sf::Vector2i m_MousePosition;
+
+private:
+
 	bool _m_MouseLeftIsDown, _m_MouseRightIsDown;
 
-	_t_cell * _m_Grid[2];
+	t_cell * _m_Grid[2];
 	bool * _m_ViaGrid;
-	_t_cell _m_CurrentBrush;
+	t_cell _m_CurrentBrush;
 	unsigned int _m_BrushIndex;
 
 	unsigned int _m_Width, _m_Height, _m_GridWidth, _m_GridHeight;
@@ -82,8 +85,7 @@ private:
 	sf::Font _m_DefaultFont;
 	sf::Text _m_HelpText;
 
-	_t_cell * _getCellAt(unsigned int layer, unsigned int x, unsigned int y);
-	bool _setCellAt(unsigned int layer, unsigned int x, unsigned int y, _t_cell * cell, bool copyConnections = false);
+	bool _setCellAt(unsigned int layer, unsigned int x, unsigned int y, t_cell * cell, bool copyConnections = false);
 
 	void _drawDecoration(sf::RenderTexture * canvas, const sf::Texture &texture, unsigned int x, unsigned int y, unsigned char alpha = 255);
 };
