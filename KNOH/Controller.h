@@ -3,6 +3,8 @@
 
 #include "includes.h"
 
+class Simulator;
+
 class Controller
 {
 public:
@@ -11,14 +13,12 @@ public:
 
 	struct t_cell
 	{
-		bool metal;
 		bool high;
 		bool north, east, south, west;
 		unsigned char material;
 
 		t_cell::t_cell()
 		{
-			metal = false;
 			north = false;
 			east = false;
 			south = false;
@@ -61,7 +61,10 @@ public:
 	void redrawCanvas();
 	void update(float delta);
 
+	sf::Vector2u getGridSize();
+
 	t_cell * getCellAt(unsigned int layer, unsigned int x, unsigned int y);
+	bool hasVia(unsigned int x, unsigned int y);
 
 	sf::Vector2i m_MousePosition;
 
@@ -84,6 +87,8 @@ private:
 	sf::Texture _m_ImgKNOH;
 	sf::Font _m_DefaultFont;
 	sf::Text _m_HelpText;
+
+	Simulator * _m_Simulator;
 
 	bool _setCellAt(unsigned int layer, unsigned int x, unsigned int y, t_cell * cell, bool copyConnections = false);
 

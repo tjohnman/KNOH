@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "Simulator.h"
 
 Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width), _m_Height(height), _m_GridWidth(width/16), _m_GridHeight(height/16-2)
 {
@@ -19,6 +20,8 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 
 void Controller::init()
 {
+	_m_Simulator = new Simulator(this);
+
 	// Draw help text
 	_m_HelpText.setFont(_m_DefaultFont);
 	_m_HelpText.setString("1. Metal 2. N-Silicon 3. P-Silicon 4. Via | Use left mouse to paint, right mouse to erase. | Tab toggles testing panel.");
@@ -100,6 +103,8 @@ Controller::~Controller()
 	delete[] _m_Grid[0];
 	delete[] _m_Grid[1];
 	delete[] _m_ViaGrid;
+
+	delete _m_Simulator;
 }
 
 void Controller::draw(sf::RenderWindow * window)
@@ -261,6 +266,8 @@ void Controller::update(float delta)
 			redrawCanvas();
 		}
 	}
+
+	_m_Simulator->update(delta);
 }
 
 bool Controller::_setCellAt(unsigned int layer, unsigned int x, unsigned int y, t_cell * cell, bool copyConnections)
@@ -287,6 +294,17 @@ Controller::t_cell * Controller::getCellAt(unsigned int layer, unsigned int x, u
 {
 	if(x >= _m_GridWidth || y >= _m_GridHeight) return NULL;
 	return &_m_Grid[layer][x+y*_m_GridWidth];
+}
+
+sf::Vector2u Controller::getGridSize()
+{
+	return sf::Vector2u(_m_GridWidth, _m_GridHeight);
+}
+
+bool Controller::hasVia(unsigned int x, unsigned int y)
+{
+	if(x >= _m_GridWidth || y >= _m_GridHeight) return false;
+	return _m_ViaGrid[x+y*_m_GridWidth];
 }
 
 void Controller::onKeyPressed(sf::Event::KeyEvent event)
