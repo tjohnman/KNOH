@@ -176,6 +176,16 @@ void Controller::redrawCanvas()
 		}
 	}
 
+	for(unsigned int i=0; i<_m_GridWidth*_m_GridHeight; ++i)
+	{
+		if(_m_ViaGrid[i])
+		{
+			sf::Sprite drawSprite;
+			drawSprite.setTexture(_m_ImgVia);
+			drawSprite.setPosition((i%_m_GridWidth)*16, (i/_m_GridWidth)*16);
+			_m_Canvas.draw(drawSprite);
+		}
+	}
 	_m_Canvas.display();
 }
 
@@ -191,33 +201,48 @@ void Controller::update(float delta)
 	{
 		if(_getCellAt(g, gridX, gridY))
 		{
-			if(_getCellAt(g, gridX, gridY)->material == 0)
+			if(_m_BrushIndex != 4)
 			{
-				_setCellAt(g, gridX, gridY, &_m_CurrentBrush, false);
-			}
+				// Place materials
+				if(_getCellAt(g, gridX, gridY)->material == 0)
+				{
+					_setCellAt(g, gridX, gridY, &_m_CurrentBrush, false);
+				}
 
-			unsigned int relx = m_MousePosition.x - (m_MousePosition.x/16)*16;
-			unsigned int rely = m_MousePosition.y - (m_MousePosition.y/16)*16;
+				unsigned int relx = m_MousePosition.x - (m_MousePosition.x/16)*16;
+				unsigned int rely = m_MousePosition.y - (m_MousePosition.y/16)*16;
 
-			if(_getCellAt(g, gridX-1, gridY) && gridX > 0 && relx < 4 && _getCellAt(g, gridX-1, gridY)->material)
-			{
-				_getCellAt(g, gridX-1, gridY)->east = true;
-				_getCellAt(g, gridX, gridY)->west = true;
+				if(_getCellAt(g, gridX-1, gridY) && gridX > 0 && relx < 4 && _getCellAt(g, gridX-1, gridY)->material)
+				{
+					_getCellAt(g, gridX-1, gridY)->east = true;
+					_getCellAt(g, gridX, gridY)->west = true;
+				}
+				if(_getCellAt(g, gridX+1, gridY) && gridX < _m_GridWidth && relx >= 12 && _getCellAt(g, gridX+1, gridY)->material)
+				{
+					_getCellAt(g, gridX+1, gridY)->west = true;
+					_getCellAt(g, gridX, gridY)->east = true;
+				}
+				if(_getCellAt(g, gridX, gridY-1) && gridY > 0 && rely < 4 && _getCellAt(g, gridX, gridY-1)->material)
+				{
+					_getCellAt(g, gridX, gridY-1)->south = true;
+					_getCellAt(g, gridX, gridY)->north = true;
+				}
+				if(_getCellAt(g, gridX, gridY+1) && gridY < _m_GridWidth && rely >= 12 && _getCellAt(g, gridX, gridY+1)->material)
+				{
+					_getCellAt(g, gridX, gridY+1)->north = true;
+					_getCellAt(g, gridX, gridY)->south = true;
+				}
 			}
-			if(_getCellAt(g, gridX+1, gridY) && gridX < _m_GridWidth && relx >= 12 && _getCellAt(g, gridX+1, gridY)->material)
+			// Place vias
+			else if(gridX < _m_GridWidth && gridY < _m_GridHeight)
 			{
-				_getCellAt(g, gridX+1, gridY)->west = true;
-				_getCellAt(g, gridX, gridY)->east = true;
-			}
-			if(_getCellAt(g, gridX, gridY-1) && gridY > 0 && rely < 4 && _getCellAt(g, gridX, gridY-1)->material)
-			{
-				_getCellAt(g, gridX, gridY-1)->south = true;
-				_getCellAt(g, gridX, gridY)->north = true;
-			}
-			if(_getCellAt(g, gridX, gridY+1) && gridY < _m_GridWidth && rely >= 12 && _getCellAt(g, gridX, gridY+1)->material)
-			{
-				_getCellAt(g, gridX, gridY+1)->north = true;
-				_getCellAt(g, gridX, gridY)->south = true;
+				_t_cell * metal = _getCellAt(0, gridX, gridY);
+				_t_cell * silicon = _getCellAt(1, gridX, gridY);
+
+				if(metal && silicon && metal->material == 'm' && silicon->material)
+				{
+					_m_ViaGrid[gridX + gridY*_m_GridWidth] = true;
+				}
 			}
 			redrawCanvas();
 		}
@@ -226,7 +251,13 @@ void Controller::update(float delta)
 	{
 		if(_getCellAt(g, gridX, gridY))
 		{
-			_setCellAt(g, gridX, gridY, NULL);
+			if(_m_BrushIndex != 4)
+			{
+				_setCellAt(g, gridX, gridY, NULL);
+			}
+			
+			_m_ViaGrid[gridX + gridY*_m_GridWidth] = false;
+			
 			redrawCanvas();
 		}
 	}
