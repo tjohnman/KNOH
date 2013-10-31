@@ -2,110 +2,80 @@
 
 Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width), _m_Height(height), _m_GridWidth(width/16), _m_GridHeight(height/16-2)
 {
+	// Load assets
 	_m_ImgMetal.loadFromFile("gfx/Metal.png");
 	_m_ImgPSilicon.loadFromFile("gfx/PSilicon.png");
 	_m_ImgNSilicon.loadFromFile("gfx/NSilicon.png");
 	_m_ImgVia.loadFromFile("gfx/Via.png");
 	_m_ImgGrid.loadFromFile("gfx/Grid.png");
-	
 	_m_ImgHigh.loadFromFile("gfx/High.png");
 	_m_ImgA.loadFromFile("gfx/A.png");
 	_m_ImgB.loadFromFile("gfx/B.png");
 	_m_ImgC.loadFromFile("gfx/C.png");
 	_m_ImgD.loadFromFile("gfx/D.png");
-
-	_m_KNOH.loadFromFile("gfx/KNOH.png");
-
+	_m_ImgKNOH.loadFromFile("gfx/KNOH.png");
 	_m_DefaultFont.loadFromFile("gfx/OpenSans-Regular.ttf");
+}
 
+void Controller::init()
+{
+	// Draw help text
 	_m_HelpText.setFont(_m_DefaultFont);
 	_m_HelpText.setString("1. Metal 2. N-Silicon 3. P-Silicon 4. Via | Use left mouse to paint, right mouse to erase. | Tab toggles testing panel.");
-	_m_HelpText.setPosition(10, _m_Height-26);
+	_m_HelpText.setPosition(10.f, (float)_m_Height-26.f);
 	_m_HelpText.setColor(sf::Color::White);
 	_m_HelpText.setCharacterSize(12);
 
-	_m_Grid[0] = new _t_cell[width*height/256];
-	_m_Grid[1] = new _t_cell[width*height/256];
-	_m_ViaGrid = new bool[width*height/256];
-	for(unsigned int i=0; i<width*height/256; ++i) _m_ViaGrid[i] = false;
+	// Initialize layers
+	_m_Grid[0] = new _t_cell[_m_Width*_m_Height/256];
+	_m_Grid[1] = new _t_cell[_m_Width*_m_Height/256];
+	_m_ViaGrid = new bool[_m_Width*_m_Height/256];
+	for(unsigned int i=0; i<_m_Width*_m_Height/256; ++i) _m_ViaGrid[i] = false;
 
-	_m_Canvas.create(width, height);
+	_m_Canvas.create(_m_Width, _m_Height);
 	_m_CanvasSprite.setTexture(_m_Canvas.getTexture());
 
-	_m_GridCanvas.create(width, height);
+	_m_GridCanvas.create(_m_Width, _m_Height);
 	_m_GridCanvasSprite.setTexture(_m_GridCanvas.getTexture());
 	
-	_m_ObjectCanvas.create(width, height);
+	_m_ObjectCanvas.create(_m_Width, _m_Height);
 	_m_ObjectCanvasSprite.setTexture(_m_ObjectCanvas.getTexture());
-
-	sf::Sprite sprite;
-	sf::Sprite logoSprite;
-	logoSprite.setTexture(_m_KNOH);
-	
+		
+	// Draw grid
 	_m_GridCanvas.clear();
 
-	sprite.setTexture(_m_ImgGrid);
-	for(unsigned int x=0; x<width/16; ++x)
+	_m_HelperSprite.setTexture(_m_ImgGrid);
+	_m_HelperSprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
+	for(unsigned int x=0; x<_m_GridWidth; ++x)
 	{
-		for(unsigned int y=0; y<height/16-2; ++y)
+		for(unsigned int y=0; y<_m_GridHeight; ++y)
 		{
-			sprite.setPosition((float)x*16, (float)y*16);
-			_m_GridCanvas.draw(sprite);
+			_m_HelperSprite.setPosition((float)x*16, (float)y*16);
+			_m_GridCanvas.draw(_m_HelperSprite);
 		}
 	}
 
-	sprite.setTexture(_m_KNOH);
-	sprite.setTextureRect(sf::IntRect(0, 0, 128, 32));
-	sprite.setColor(sf::Color(255, 255, 255, 60));
-	sprite.setPosition(_m_Width/2 - 64, _m_Height/2 - 64);
-	_m_GridCanvas.draw(sprite);
+	// Draw pins
+	_drawDecoration(&_m_GridCanvas, _m_ImgKNOH, _m_Width/2 - 64, _m_Height/2 - 64, 60);
 
 	_m_GridCanvas.display();
 
 	_m_ObjectCanvas.clear(sf::Color(0, 0, 0, 0));
 	
-	sprite.setColor(sf::Color(255, 255, 255, 255));
-	sprite.setTexture(_m_ImgHigh);
-	sprite.setTextureRect(sf::IntRect(0, 0, 48, 48));
-	sprite.setPosition(16, 16);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setPosition(_m_Width-64, 16);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setPosition(((_m_Width-64)/16)*16, ((_m_Height-96)/16)*16);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setPosition(16, ((_m_Height-96)/16)*16);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setTexture(_m_ImgA);
-	sprite.setPosition(16, 80);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setPosition(_m_Width-64, 80);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setTexture(_m_ImgB);
-	sprite.setPosition(16, 144);
-	_m_ObjectCanvas.draw(sprite);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgHigh, 16, 16);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgHigh, _m_Width-64, 16);
 	
-	sprite.setPosition(_m_Width-64, 144);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setTexture(_m_ImgC);
-	sprite.setPosition(16, 208);
-	_m_ObjectCanvas.draw(sprite);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgA, 16, 80);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgA, _m_Width-64, 80);
 	
-	sprite.setPosition(_m_Width-64, 208);
-	_m_ObjectCanvas.draw(sprite);
-
-	sprite.setTexture(_m_ImgD);
-	sprite.setPosition(16, 272);
-	_m_ObjectCanvas.draw(sprite);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgB, 16, 144);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgB, _m_Width-64, 144);
 	
-	sprite.setPosition(_m_Width-64, 272);
-	_m_ObjectCanvas.draw(sprite);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgC, 16, 208);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgC, _m_Width-64, 208);
+	
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgD, 16, 272);
+	_drawDecoration(&_m_ObjectCanvas, _m_ImgD, _m_Width-64, 272);
 
 	_m_ObjectCanvas.display();
 
@@ -114,6 +84,15 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 
 	_m_MouseLeftIsDown = false;
 	_m_MouseRightIsDown = false;
+}
+
+void Controller::_drawDecoration(sf::RenderTexture * canvas, const sf::Texture &texture, unsigned int x, unsigned int y, unsigned char alpha)
+{
+	_m_HelperSprite.setTexture(texture);
+	_m_HelperSprite.setTextureRect(sf::IntRect(0, 0, texture.getSize().x, texture.getSize().y));
+	_m_HelperSprite.setColor(sf::Color(255, 255, 255, alpha));
+	_m_HelperSprite.setPosition((float)x, (float)y);
+	canvas->draw(_m_HelperSprite);
 }
 
 Controller::~Controller()

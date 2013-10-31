@@ -16,6 +16,7 @@ int main()
 	clock.restart();
 
 	Controller controller(window.getSize().x, window.getSize().y);
+	controller.init();
 
     while (window.isOpen())
     {
