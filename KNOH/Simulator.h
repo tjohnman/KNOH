@@ -13,6 +13,7 @@ public:
 	void update(float delta);
 
 	bool m_Running;
+	int m_Delay;
 
 private:
 	sf::Clock _m_Clock;

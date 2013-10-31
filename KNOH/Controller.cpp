@@ -111,6 +111,21 @@ void Controller::draw(sf::RenderWindow * window)
 {
 	window->draw(_m_GridCanvasSprite);
 	window->draw(_m_CanvasSprite);
+
+	sf::RectangleShape r = sf::RectangleShape(sf::Vector2f(16, 16));
+	r.setFillColor(sf::Color(200, 200, 255, 60));
+	for(unsigned int i=0; i<_m_GridWidth*_m_GridHeight; ++i)
+	{
+		t_cell * cell0 = getCellAt(0, i%_m_GridWidth, i/_m_GridWidth);
+		t_cell * cell1 = getCellAt(1, i%_m_GridWidth, i/_m_GridWidth);
+
+		if(cell0->high || cell1->high)
+		{
+			r.setPosition((i%_m_GridWidth)*16, (i/_m_GridWidth)*16);
+			window->draw(r);
+		}
+	}
+
 	window->draw(_m_ObjectCanvasSprite);
 	window->draw(_m_HelpText);
 }

@@ -3,8 +3,8 @@
 #include "Controller.h"
 
 // TODO: Move to configuration manager
-#define W_WIDTH 1440
-#define W_HEIGHT 900
+#define W_WIDTH 640
+#define W_HEIGHT 480
 
 int main()
 {
