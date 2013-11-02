@@ -3,13 +3,46 @@
 
 Simulator::Simulator(Controller * c) : _m_Controller(c)
 {
-	m_Running = true;
+	m_Running = false;
 	m_Delay = 50;
 }
 
 Simulator::~Simulator()
 {
 
+}
+
+void Simulator::toggleRunning()
+{
+	m_Running = !m_Running;
+	if(!m_Running)
+	{
+		reset();
+	}
+}
+
+void Simulator::reset()
+{
+	sf::Vector2u gridSize = _m_Controller->getGridSize();
+
+	for(unsigned int i=0; i<gridSize.x*gridSize.y; ++i)
+	{
+		Controller::t_cell * cell = _m_Controller->getCellAt(0, i%gridSize.x, i/gridSize.x);
+		if(cell && cell->material)
+		{
+			cell->high = false;
+		}
+
+		cell = _m_Controller->getCellAt(1, i%gridSize.x, i/gridSize.x);
+		if(cell && cell->material)
+		{
+			cell->high = false;
+		}
+	}
+
+	_m_activeNPNGates.clear();
+	_m_activePNPGates.clear();
+	_m_Clock.restart();
 }
 
 void Simulator::update(float delta)

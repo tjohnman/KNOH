@@ -15,6 +15,8 @@ Controller::Controller(unsigned int width, unsigned int height) : _m_Width(width
 	_m_ImgC.loadFromFile("gfx/C.png");
 	_m_ImgD.loadFromFile("gfx/D.png");
 	_m_ImgKNOH.loadFromFile("gfx/KNOH.png");
+	_m_ImgPlay.loadFromFile("gfx/Play.png");
+	_m_ImgPause.loadFromFile("gfx/Pause.png");
 	_m_DefaultFont.loadFromFile("gfx/OpenSans-Regular.ttf");
 }
 
@@ -87,6 +89,7 @@ void Controller::init()
 
 	_m_MouseLeftIsDown = false;
 	_m_MouseRightIsDown = false;
+	_m_PlayButtonHover = false;
 }
 
 void Controller::_drawDecoration(sf::RenderTexture * canvas, const sf::Texture &texture, unsigned int x, unsigned int y, unsigned char alpha)
@@ -128,6 +131,20 @@ void Controller::draw(sf::RenderWindow * window)
 
 	window->draw(_m_ObjectCanvasSprite);
 	window->draw(_m_HelpText);
+
+	if(_m_PlayButtonHover)
+	{
+		sf::RectangleShape hoverSquare(sf::Vector2f(32, 32));
+		hoverSquare.setPosition(_m_Width-32, _m_Height-32);
+		hoverSquare.setFillColor((_m_Simulator->m_Running ? sf::Color(200, 200, 60) : sf::Color(60, 120, 60)));
+		window->draw(hoverSquare);
+	}
+
+	_m_HelperSprite.setTexture((_m_Simulator->m_Running ? _m_ImgPlay : _m_ImgPause));
+	_m_HelperSprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
+	_m_HelperSprite.setPosition(_m_Width-32, _m_Height-32);
+	_m_HelperSprite.setColor(sf::Color::White);
+	window->draw(_m_HelperSprite);
 }
 
 void Controller::redrawCanvas()
@@ -301,6 +318,8 @@ void Controller::update(float delta)
 	}
 
 	_m_Simulator->update(delta);
+
+	_m_PlayButtonHover = (m_MousePosition.x > _m_Width-32 && m_MousePosition.y > _m_Height-32);
 }
 
 bool Controller::_isInline(unsigned int layer, unsigned int x, unsigned int y)
@@ -374,6 +393,8 @@ void Controller::onKeyPressed(sf::Event::KeyEvent event)
 	case sf::Keyboard::Num4:
 		_m_BrushIndex = 4;
 		break;
+	case sf::Keyboard::Space:
+		_m_Simulator->toggleRunning();
 	default:
 		break;
 	}
@@ -394,4 +415,9 @@ void Controller::onMouseUp(sf::Event::MouseButtonEvent event)
 {
 	if(event.button == sf::Mouse::Left) _m_MouseLeftIsDown = false;
 	if(event.button == sf::Mouse::Right) _m_MouseRightIsDown = false;
+
+	if(event.x > _m_Width-32 && event.y > _m_Height-32)
+	{
+		_m_Simulator->toggleRunning();
+	}
 }

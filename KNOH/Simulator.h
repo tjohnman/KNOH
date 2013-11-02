@@ -11,6 +11,8 @@ public:
 	~Simulator();
 
 	void update(float delta);
+	void reset();
+	void toggleRunning();
 
 	bool m_Running;
 	int m_Delay;

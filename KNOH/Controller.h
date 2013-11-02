@@ -71,6 +71,7 @@ public:
 private:
 
 	bool _m_MouseLeftIsDown, _m_MouseRightIsDown;
+	bool _m_PlayButtonHover;
 
 	t_cell * _m_Grid[2];
 	bool * _m_ViaGrid;
@@ -84,6 +85,7 @@ private:
 	sf::Sprite _m_HelperSprite;
 	sf::Texture _m_ImgMetal, _m_ImgPSilicon, _m_ImgNSilicon, _m_ImgVia, _m_ImgGrid;
 	sf::Texture _m_ImgA, _m_ImgB, _m_ImgC, _m_ImgD, _m_ImgHigh;
+	sf::Texture _m_ImgPlay, _m_ImgPause;
 	sf::Texture _m_ImgKNOH;
 	sf::Font _m_DefaultFont;
 	sf::Text _m_HelpText;
