@@ -61,8 +61,6 @@ void Controller::init()
 	}
 
 	// Draw pins
-	_drawDecoration(&_m_GridCanvas, _m_ImgKNOH, _m_Width/2 - 64, _m_Height/2 - 64, 60);
-
 	_m_GridCanvas.display();
 
 	_m_ObjectCanvas.clear(sf::Color(0, 0, 0, 0));
