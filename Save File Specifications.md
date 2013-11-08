@@ -1,14 +1,33 @@
 ####Save File Format
-Author: **meisl** Last revision: **November 8, 2013**
+Author: **[meisl](https://github.com/meisl)**
+
+Last revision: **November 8, 2013**
+
 Ref: https://github.com/tjohnman/KNOH/issues/3
 
 --
 
-Here's mentioned regexp, with rationale:
+#####What's in a Kohctpryktop cell?
+
+We'll take a first step here to answering this. It will not, however, in itself, answer the question
+>"How to (best) represent the contents of a Kohctpryktop design area?"
+
+or even
+>"How - *actually* - are the contents of a Kohctpryktop design area represented?"
+
+(Ie: "what's the actual format used in the original game?")
+
+In order to approach these two we will first take on a **cell-centric view on things** and see what possible states
+("configurations") a single cell can be in. [TODO: "Imagine: build graphical rep with a 1000 or so pics"]
+This explicitly includes any connections to neighbouring cells, hence there'd be a bit of redundancy if we 
+were to use it in an encoding of an *array of cells*.
+
+Anyways, a very compact way of representing such a cell configuration is a regular expression ("regexp", for short), 
+such as this:
 ```
 (_|m[0-9A-F])(_|[np][0-9A-F]v?|((npn|pnp)(TB?|B|LR?|R))
 ```
-*17 &times; 73 = 1241 configurations in total; see below for details.*
+*...giving a total of 17 &times; 73 = 1241 configurations; see below for details.*
 
 Before the explanation let me state that: It
 * is meant as a tool for analysis (as eg the # of different cell images, given certain conventions)
@@ -18,9 +37,11 @@ Before the explanation let me state that: It
 * does contain - when used in an encoding of an *array of cells* - redundant information
 * is therefore probably NOT how things are encoded in the actual data format (see above, I reckon the actual thing is rather separating a) what's in the cell (m and/or silicon) and b) connections)
 
+[TODO: completely incorporate all of these into intro text, then delete this bullet list]
+
 --
 
-Now here's the rationale: it decomposes into two main parts:
+The regexp decomposes into two main parts:
 * metal layer and its connections: ``(_|m[0-9A-F])``
 * silicon layer with variations and connections: ``(_|[np][0-9A-F]v?|((npn|pnp)(TB?|B|LR?|R))``
 
