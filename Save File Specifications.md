@@ -1,5 +1,6 @@
 ####Save File Format
-Author: **meisl** Last revision: **December 8, 2013**
+Author: **meisl** Last revision: **November 8, 2013**
+Ref: https://github.com/tjohnman/KNOH/issues/3
 
 --
 
