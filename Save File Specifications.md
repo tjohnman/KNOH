@@ -1,6 +1,5 @@
-KNOH Save File Specifications Proposal
-*Author*: meisl
-*Last revision*: December 8, 2013
+####Save File Format
+Author: **meisl** Last revision: **December 8, 2013**
 
 --
 
