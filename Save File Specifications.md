@@ -15,7 +15,7 @@ We'll take a first step here to answering this. It will not, however, in itself,
 or even
 >"How - *actually* - are the contents of a Kohctpryktop design area represented?"
 
-(Ie: "what's the actual format used in the original game?")
+(Ie: "What's the actual format used in the original game?")
 
 In order to approach these two we will first take on a **cell-centric view on things** and see what possible states
 ("configurations") a single cell can be in. [TODO: "Imagine: build graphical rep with a 1000 or so pics"]
@@ -27,7 +27,7 @@ such as this:
 ```
 (_|m[0-9A-F])(_|[np][0-9A-F]v?|((npn|pnp)(TB?|B|LR?|R))
 ```
-*...giving a total of 17 &times; 73 = 1241 configurations; see below for details.*
+*- giving a total of 17 &times; 73 = 1241 configurations; details following.*
 
 Before the explanation let me state that: It
 * is meant as a tool for analysis (as eg the # of different cell images, given certain conventions)
