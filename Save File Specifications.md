@@ -22,7 +22,7 @@ In order to approach these two we will first take on a **cell-centric view on th
 This explicitly includes any connections to neighbouring cells, hence there'd be a bit of redundancy if we 
 were to use it in an encoding of an *array of cells*.
 
-Anyways, a very compact way of representing such a cell configuration is a regular expression ("regexp", for short), 
+Anyways, a quite compact way of representing such a cell configuration is a regular expression ("regexp", for short), 
 such as this:
 ```
 (_|m[0-9A-F])(_|[np][0-9A-F]v?|((npn|pnp)(TB?|B|LR?|R))
