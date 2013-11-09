@@ -46,8 +46,10 @@ The regexp decomposes into two main parts:
 * silicon layer with variations and connections: ``(_|[np][0-9A-F]v?|((npn|pnp)(TB?|B|LR?|R))``
 
 ##### Metal layer
-Pretty simple: either there is no metal (``_``) or there is (``m``). In the latter case there can exist connections to any of four sides: top, right, bottom, left - which is encoded in 4 bits, represented as one hex digit (``[0-9A-F]``).
-Which bit means which direction is up to convention. Doesn't matter much but I think it should be either be clockwise or anti-clockwise, read MSB-to-LSB or LSB-to-MSB.
+Pretty simple: either there is no metal (``_``) or there is (``m``). In the latter case there can exist connections
+to any of four sides: top, right, bottom, left - which is encoded in 4 bits, represented as one hex digit (``[0-9A-F]``).
+Which bit means which direction is up to convention. Doesn't matter much but I think it should be either clockwise
+or anti-clockwise, read MSB-to-LSB or LSB-to-MSB.
 *The two alternatives yield a total of 1 + 16 = 17 configurations in the metal layer.*
 
 ##### Silicon layer
