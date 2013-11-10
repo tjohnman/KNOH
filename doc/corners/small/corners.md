@@ -1,19 +1,20 @@
-####Top-Left corner
+####`TL-` (top left corner)
 
-* <img align="top" src="TL-0000-or-0001-or-0010.png?raw=true">&nbsp;
-  **TL-0000-or-0001-or-0010** `[012]` (3)<br>
-  NOT connected to the left and NOT to the top
-  and NOT *both*, to the right and bottom
+* <img src="TL-0000-or-0001-or-0010.png?raw=true" align="top" 
+   title="NOT connected to the left and NOT to the top
+          and NOT *both*, to the right and bottom">
+  &nbsp;**0000|0001|0010** `[012]` *(3)*
 
-* <img align="top" src="TL-0011.png?raw=true">&nbsp;
-  **TL-0011** `[3]` (1)<br>
-  connected to the right and bottom
-  but NOT to the left and top
+* <img src="TL-0011.png?raw=true" align="top"
+   title="connected to the right and bottom
+          but NOT to the left and top">
+  &nbsp;**0011** `[3]` *(1)*
 
-* <img align="top" src="TL-01XX.png?raw=true">&nbsp;
-  **TL-01XX** `[4567]` (4)<br>
-  connected to the left
-  but NOT to the top
+* <img src="TL-01XX.png?raw=true" align="top"
+   title="connected to the left
+          but NOT to the top">
+  &nbsp; **01XX** `[4567]` *(4)*
+  
 
 * <img align="top" src="TL-10XX.png?raw=true">&nbsp;
   **TL-10XX** `[89AB]` (4)<br>
@@ -50,6 +51,5 @@
 * <img align="top" src="BL-X11X.png?raw=true">&nbsp;
   **BL-X11X** `[67EF]` (4)<br>
   connected to the left and bottom
-
 
 

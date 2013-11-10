@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+    <title>Drawing cells corner-by-corner</title>
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="meisl">
+ </head>
+
+ <body>
+    <style type="text/css">
+        table {
+            margin:0px;
+            border:0px solid red;
+            padding:0px;
+        }
+        td {
+            margin:0px;
+            border:1px solid black;
+            padding:0px;
+            text-align:center; vertical-align:middle; 
+            font-family:monospace; font-size:11px; font-weight: bold;
+            color:blue;
+        }
+        
+        td * td {
+            margin:0px;
+            border:0px solid green;
+            padding:0px; padding-left: 12px; padding-right: 12px;
+        }
+        
+        #TL { text-align:right; vertical-align:bottom; }
+        #TR { text-align:left; vertical-align:bottom; }
+        #BL { text-align:right; vertical-align:top; }
+        #BR { text-align:left; vertical-align:top; }
+
+        #quadrant-label { font-size: 20px; font-weight: bold; }
+    </style>
+  
+    <table>
+    <tr>
+        <td id="TL"><table>
+            <tr>
+                <td class="TL">
+                    <img align="top" src="TL-0000-or-0001-or-0010.png?raw=true" title="NOT connected to the left and NOT to the top and NOT to *both*, right and bottom"></img>
+                    <br>0000|0001|0010 [012]
+                </td>
+                <td class="TL" id="quadrant-label" colspan="2">TL-</td>
+            </tr>
+            <tr>
+                <td class="TL"></td>
+                <td class="TL">
+                    <img align="top" src="TL-0011.png?raw=true" title="connected to the right and bottom but NOT to top and left">
+                    <br>0011 [3]
+                </td>
+                <td class="TL">
+                    <img align="top" src="TL-01XX.png?raw=true" title="connected to the left but NOT to the top">
+                    <br>01XX [4567]
+                </td>
+            </tr>
+            <tr>
+                <td class="TL"></td>
+                <td class="TL">
+                    <img align="top" src="TL-10XX.png?raw=true" title="connected to the top but NOT to the left">
+                    <br>10XX [89AB]
+                </td>
+                <td class="TL">
+                    <img align="top" src="TL-11XX.png?raw=true" title="connected to the top and left">
+                    <br>11XX [CDEF]
+                  </td>
+            </tr>
+        </table></td>
+
+        <td id="TR"><table>
+            <tr>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+            </tr>
+            <tr>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+            </tr>
+            <tr>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+            </tr>
+            <tr>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+                <td class="TR"></td>
+            </tr>
+        </table></td>
+    </tr>
+
+
+    <tr>
+        <td id="BL"><table>
+            <tr>
+                <td class="BL"></td>
+                <td class="BL">
+                    <img align="top" src="BL-X01X.png?raw=true" title="connected to the bottom but NOT to the left">
+                    <br>X01X [23AB]
+                </td>
+                <td class="BL">
+                    <img align="top" src="BL-X11X.png?raw=true" title="connected to the left and bottom">
+                    <br>X11X [67EF]
+                </td>
+            </tr>
+            <tr>
+                <td class="BL"></td>
+                <td class="BL">
+                    <img align="top" src="BL-1001.png?raw=true" title="connected to the top and to the right but NOT to left and bottom">
+                    <br>1001 [9]
+                  </td>
+                <td class="BL">
+                    <img align="top" src="BL-X10X.png?raw=true" title="connected to the left but NOT to the bottom">
+                    <br>X10X [45CD]
+                </td>
+            </tr>
+            <tr>
+                <td class="BL">
+                    <img align="top" src="BL-0000-or-0001-or-1000.png?raw=true" title="NOT connected to the left and NOT to the bottom and NOT to *both*, right and top">
+                    <br>0000|0001|1000 [018]
+                </td>
+                <td class="BL" id="quadrant-label" colspan="2">BL-</td>
+            </tr>
+        </table></td>
+
+
+        <td id="BR"><table>
+            <tr>
+                <td class="BR">
+                    <img align="top" src="BR-XX11.png?raw=true" title="connected to the bottom and right">
+                    <br>XX11 [37BF]
+                </td>
+                <td class="BR">
+                    <img align="top" src="BR-XX10.png?raw=true" title="connected to the bottom but NOT to the right">
+                    <br>XX10 [26AE]
+                </td>
+                <td class="BR"></td>
+            </tr>
+            <tr>
+                <td class="BR">
+                    <img align="top" src="BR-XX01.png?raw=true" title="connected to the right but NOT to the bottom">
+                    <br>XX01 [159D]
+                </td>
+                <td class="BR">
+                    <img align="top" src="BR-1100.png?raw=true" title="connected to the top and left but NOT to bottom and right">
+                    <br>1100 [C]
+                </td>
+                <td class="BR"></td>
+            </tr>
+            <tr>
+                <td class="BR" id="quadrant-label" colspan="2">BR-</td>
+                <td class="BR">
+                    <img align="top" src="BR-0000-or-0100-or-1000.png?raw=true" title="NOT connected to the bottom and NOT to the right and NOT to *both*, top and left">
+                    <br>0000|0100|1000 [048]
+                
+                </td>
+            </tr>
+        </table></td>
+
+    </tr>
+    </table>
+ </body>
+</html>
