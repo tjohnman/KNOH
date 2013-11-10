@@ -49,7 +49,7 @@ The regexp decomposes into two main parts:
 Pretty simple: either there is no metal (``_``) or there is (``m``). In the latter case there can exist connections
 to any of four sides: top, right, bottom, left - which is encoded in 4 bits, represented as one hex digit (``[0-9A-F]``).
 Which bit means which direction is up to convention. 
-The one we'll use is TLBR, read MSB-to-LSB. That is: ``8`` = top, ``4`` = left, ``2`` = bottom, 1 = ``right``.
+The one we'll use is TLBR, read MSB-to-LSB. That is: ``8`` = top, ``4`` = left, ``2`` = bottom, ``1`` = right.
 
 *The two alternatives yield a total of 1 + 16 = 17 configurations in the metal layer.*
 
