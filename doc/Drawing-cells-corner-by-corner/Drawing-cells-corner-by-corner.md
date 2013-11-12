@@ -88,7 +88,7 @@ In the illustrations of drawing primitives below three colors are used:
 * white means 100% transparent, ie. nothing
 * gray means the layer color, ie. eg yellow for P-silicon, red for N-silicon and 50% white for metal
 ...and the illustrations are labelled with a code that represents the cell connections using the same
-convention as in <a href="../../../Save File Specifications.md">"Save File Specifications.md"</a>,
+convention as in <a href="../Whats-in-a-cell.md">"What's in a Kohctpryktop cell?"</a>,
 ie. TLBR read MSB-to-LSB. The first part of a label is in binary, X standing for "don't care".
 The second part is equivalent but in the form of a regular expression, as alternatives of hex digits.
 
