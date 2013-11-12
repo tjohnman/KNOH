@@ -56,7 +56,7 @@ This is how a via looks like
 
 #####Quadrants
 Here's another trick to further systematize things:
-a single **cell is split into 4 quadrants** (conceptuall, not visually), 
+a single **cell is split into 4 quadrants** (conceptually, not visually), 
 each of which can take on one of 5 different shapes.
 
 Not all 5 ^ 4 = 625 possible combinations of these actually make sense.
