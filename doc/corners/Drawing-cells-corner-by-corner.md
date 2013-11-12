@@ -17,7 +17,7 @@ This space needs to be drawn differently, depending on connections to neighbouri
 Then there is a detail that is not only nice-looking but also makes clearer where connections are
 when there are connections in both, the metal and silicon layer.
 
-<img alt="round-corner-diff.png" src="round-corner-diff.png?raw=true" align="middle">
+<img alt="round-corner-diff.png" src="gfx/round-corner-diff.png?raw=true" align="middle">
 Focus on the center cell in each of the pictures and try to spot the difference!
 
 The detail is this: if - and only if - a cell is connected to, say, the top and left but not to bottom and right, 
@@ -30,7 +30,7 @@ Rather we will treat the inter-cell space that is to the **right and bottom** of
 the cell itself** (by convention, any pair of orthogonal directions could be used).
 
 
-<img src="cell-background.png?raw=true" title="cell-background" align="middle">
+<img src="gfx/cell-background.png?raw=true" title="cell-background" align="middle">
 Cell-background: inter-cell space is in dark gray
 
 #####Layers and vias
@@ -50,7 +50,7 @@ This would indeed allow for vias if there's metal but no silicon - we just don't
 this possibility (see below for a similar reasoning).
 Hence, putting vias in an intermediate layer makes for one more drawing primitive.
 
-<img src="via.png?raw=true" title="via" align="middle">
+<img src="gfx/via.png?raw=true" title="via" align="middle">
 This is how a via looks like
 
 
@@ -93,4 +93,4 @@ ie. TLBR read MSB-to-LSB. The first part of a label is in binary, X standing for
 The second part is equivalent but in the form of a regular expression, as alternatives of hex digits.
 
 
-<img src="Primitives-table.png?raw=true" title="Table of drawing primitives">
+<img src="gfx/Primitives-table.png?raw=true" title="Table of drawing primitives">
