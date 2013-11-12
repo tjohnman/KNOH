@@ -1,4 +1,4 @@
-####Save File Format
+####What's in a Kohctpryktop cell?
 Author: **[meisl](https://github.com/meisl)**
 
 Last revision: **November 10, 2013**
@@ -6,8 +6,6 @@ Last revision: **November 10, 2013**
 Ref: https://github.com/tjohnman/KNOH/issues/3
 
 --
-
-#####What's in a Kohctpryktop cell?
 
 We'll take a first step here to answering this. It will not, however, in itself, answer the question
 >"How to (best) represent the contents of a Kohctpryktop design area?"
