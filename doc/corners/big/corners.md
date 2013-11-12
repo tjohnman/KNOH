@@ -6,7 +6,7 @@ Last revision: **November 12, 2013**
 Ref: https://github.com/tjohnman/KNOH/issues/3#issuecomment-28255654
 
 --
-#####Note: junctions (in the silicon layer) are completely ignored. That's a TODO.
+#####Note: junctions (in the silicon layer) are completely ignored as of now. That's a TODO.
 --
 
 
@@ -16,20 +16,22 @@ This space needs to be drawn differently, depending on connections to neighbouri
 
 Then there is a detail that is not only nice-looking but also makes clearer where connections are
 when there are connections in both, the metal and silicon layer.
-Focus on the center cell in each of the following pictures and try to spot the difference:
 
-<img alt="round-corner-diff.png" src="round-corner-diff.png?raw=true">
+<img alt="round-corner-diff.png" src="round-corner-diff.png?raw=true" align="middle">
+Focus on the center cell in each of the pictures and try to spot the difference!
 
 The detail is this: if - and only if - a cell is connected to, say, the top and left but not to bottom and right, 
 then the bottom right corner of the cell looks a bit more round.
 This is one of 4 cases, it holds for any combination of two orthogonal directions (with their opposites, resp.).
-
 
 In order to address both of these points it is advantageous to *not* distinguish between cell space and
 inter-cell space.
 Rather we will treat the inter-cell space that is to the **right and bottom** of a cell as **belonging to
 the cell itself** (by convention, any pair of orthogonal directions could be used).
 
+
+<img src="cell-background.png?raw=true" title="cell-background" align="middle">
+Cell-background: inter-cell space is in dark gray
 
 #####Layers and vias
 Due to the fact that there can be metal on top of silicon (or on top of nothing, for that matter),
@@ -38,7 +40,6 @@ This gives rise to quite a number of shades and we don't want to enumerate them 
 So we take a layered approach, building up from the bottom (background, incl. inter-cell spacers)
 through the middle (silicon) to the top (metal).
 
-<img src="cell-background.png?raw=true" title="cell-background">
 
 Then there's **vias** which can be viewed as belonging to the silicon layer.
 That's because there can be a via if there is silicon but no metal
@@ -49,7 +50,8 @@ This would indeed allow for vias if there's metal but no silicon - we just don't
 this possibility (see below for a similar reasoning).
 Hence, putting vias in an intermediate layer makes for one more drawing primitive.
 
-<img src="via.png?raw=true" title="via">
+<img src="via.png?raw=true" title="via" align="middle">
+This is how a via looks like
 
 
 #####Quadrants
@@ -81,7 +83,7 @@ we gain the following:
 
 
 #####Legend
-In the drawing primitive illustrations below three colors are used:
+In the illustrations of drawing primitives below three colors are used:
 * black means the cell border; will be actual black with 100% opacity
 * white means 100% transparent, ie. nothing
 * gray means the layer color, ie. eg yellow for P-silicon, red for N-silicon and 50% white for metal
@@ -91,4 +93,4 @@ ie. TLBR read MSB-to-LSB. The first part of a label is in binary, X standing for
 The second part is equivalent but in the form of a regular expression, as alternatives of hex digits.
 
 
-<img src="primitives-table.png?raw=true" title="Table of drawing primitives">
+<img src="Primitives-table.png?raw=true" title="Table of drawing primitives">
