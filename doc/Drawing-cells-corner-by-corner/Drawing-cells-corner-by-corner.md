@@ -31,7 +31,7 @@ the cell itself** (by convention, any pair of orthogonal directions could be use
 
 
 <img src="gfx/cell-background.png?raw=true" title="cell-background" align="middle">
-Cell-background: inter-cell space is in dark gray
+Cell-background: 1-pixel inter-cell space in dark gray
 
 #####Layers and vias
 Due to the fact that there can be metal on top of silicon (or on top of nothing, for that matter),
