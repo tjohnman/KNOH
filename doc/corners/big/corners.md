@@ -43,7 +43,7 @@ through the middle (silicon) to the top (metal).
 
 Then there's **vias** which can be viewed as belonging to the silicon layer.
 That's because there can be a via if there is silicon but no metal
-while there cannot if there is metal but no silicon.
+while there cannot be a via if there is metal but no silicon.
 However, treating them this way would double the nr of drawing primitives.
 We can as well view them as existing in an intermediate layer between the silicon and the metal.
 This would indeed allow for vias if there's metal but no silicon - we just don't make use of
