@@ -74,12 +74,12 @@ By the way, the increase of 4 is entirely due to the "round corner detail".
 
 #####Taking it all together
 * treating inter-cell space as cell space
-* drawing layers on top each other (be it 2 or 3, doesn't matter too much)
+* drawing layers on top of each other (be it 4 or 4, doesn't matter too much)
 * viewing each cell as being made of quadrants
 
 we gain the following:
 * not only can each cell be drawn separately (ie. possibly in parallel) but so could each quadrant
-* the drawing primitives are much simpler while their number is still relatively small (21 or 40, resp.)
+* the drawing primitives are much simpler while their number is still relatively small (22 or 41, resp.)
 
 
 #####Legend
