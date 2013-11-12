@@ -26,7 +26,7 @@ This is one of 4 cases, it holds for any combination of two orthogonal direction
 
 In order to address both of these points it is advantageous to *not* distinguish between cell space and
 inter-cell space.
-Rather we will treat the inter-cell space that is to the **right and bottom** of a cell as **belonging to
+Rather we will treat the inter-cell space that is to the **right or bottom** of a cell as **belonging to
 the cell itself** (by convention, any pair of orthogonal directions could be used).
 
 
