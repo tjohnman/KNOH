@@ -83,14 +83,18 @@ we gain the following:
 
 
 #####Legend
-In the illustrations of drawing primitives below three colors are used:
+In the illustrations of drawing primitives below we use three colors:
 * black means the cell border; will be actual black with 100% opacity
 * white means 100% transparent, ie. nothing
 * gray means the layer color, ie. eg yellow for P-silicon, red for N-silicon and 50% white for metal
-...and the illustrations are labelled with a code that represents the cell connections using the same
+
+And the illustrations are labelled with a code that represents the cell connections using the same
 convention as in <a href="../Whats-in-a-cell.md">"What's in a Kohctpryktop cell?"</a>,
-ie. TLBR read MSB-to-LSB. The first part of a label is in binary, X standing for "don't care".
-The second part is equivalent but in the form of a regular expression, as alternatives of hex digits.
+ie. TLBR read MSB-to-LSB.
+Each code consists of two parts which are essentially equivalent;
+* 1st is in binary, X standing for "any" (0 or 1) and two 1s *scratched*
+meaning "NAND" (0 and 0 or 0 and 1 or 1 and 0 but not 1 and 1)
+* 2nd is in the form of a regular expression, as alternatives of hex digits.
 
 
 <img src="gfx/Primitives-table.png?raw=true" title="Table of drawing primitives">
