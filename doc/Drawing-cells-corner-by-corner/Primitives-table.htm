@@ -15,20 +15,19 @@
         }
         td {
             margin:0px;
-            border:px solid black;
+            border:0px solid green;
             padding:0px;
-            text-align:center; vertical-align:middle; 
+            text-align:center; vertical-align:middle;
             font-family:monospace; font-size:11px; font-weight: bold;
             color:blue;
         }
         
         td * td {
-            margin:0px;
-            border:0px solid green;
+            border:0px solid black;
             padding:0px;
         }
 
-        .junction { color:green; visibility:hidden; }
+        .junction { color:green; visibility:xhidden; }
         
         .TL { text-align:right; vertical-align:bottom;  padding-bottom:1px; border-bottom:1px solid black; padding-right: 1px; border-right: 1px solid black; }
         .BL { text-align:right; vertical-align:top;     padding-right: 1px; border-right: 1px solid black; padding-top:   1px; border-top:   1px solid black; }
@@ -36,7 +35,21 @@
         .TR { text-align:left; vertical-align:bottom;   padding-left:  1px; border-left:  1px solid black; padding-bottom:1px; border-bottom:1px solid black; }
 
         .quadrant-label * { font-size: 20px; font-weight: bold; color:black; }
-        .quadrant-label *:after { content:attr(id)"-"; }
+
+        td * td img {
+            display:block;
+            border:0px solid black;
+            padding:5px;
+            padding-bottom:0px;
+        }
+        td.TL * td img { padding-right:8px; }
+        td.TR * td img { padding-left: 8px; }
+        td.BL * td img { padding-right:8px; padding-top:8px; }
+        td.BR * td img { padding-left: 8px; padding-top:8px; }
+
+        td * td[colspan="2"] img {
+            margin-left:74px;
+        }
     </style>
 
     <table>
@@ -45,36 +58,36 @@
             <tr>
                 <td class="quadrant-label" rowspan="3"><div id="TL"></div></td>
                 <td>
-                    <img align="top" src="gfx/TL-0011.png?raw=true" title="connected to the right and bottom but NOT to top and left">
-                    <br>0011 [3]
+                    <img S="[3]" src="gfx/TL-0011.png?raw=true" title="connected to the right and bottom but NOT to top and left">
+                    0011 [3]
                 </td>
                 <td class="junction" colspan="2">
-                    <img align="top" src="gfx/TL-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
-                    <br>[TB?|B]
+                    <img J="TB?|B" src="gfx/TL-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
+                    <strike>0</strike>_<strike>0</strike>_ (TB?|B)
                 </td>
             </tr>
             <tr>
                 <td class="junction" rowspan="2">
-                    <img align="top" src="gfx/TL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
-                    <br>[LR?|R]
+                    <img J="LR?|R" src="gfx/TL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
+                    _<strike>0</strike>_<strike>0</strike> (LR?|R)
                 </td>
                 <td>
-                    <img align="top" src="gfx/TL-0000-or-0001-or-0010.png?raw=true" title="NOT connected to the left and NOT to the top and NOT to *both*, right and bottom">
-                    <br>00<strike>11</strike> [012]
+                    <img S="[012]" src="gfx/TL-0000-or-0001-or-0010.png?raw=true" title="NOT connected to the left and NOT to the top and NOT to *both*, right and bottom">
+                    00<strike>11</strike> [012]
                 </td>
                 <td>
-                    <img align="top" src="gfx/TL-01XX.png?raw=true" title="connected to the left but NOT to the top">
-                    <br>01XX [4567]
+                    <img S="[4567]" src="gfx/TL-01XX.png?raw=true" title="connected to the left but NOT to the top">
+                    01XX [4567]
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img align="top" src="gfx/TL-10XX.png?raw=true" title="connected to the top but NOT to the left">
-                    <br>10XX [89AB]
+                    <img S="[89AB]" src="gfx/TL-10XX.png?raw=true" title="connected to the top but NOT to the left">
+                    10XX [89AB]
                 </td>
                 <td>
-                    <img align="top" src="gfx/TL-11XX.png?raw=true" title="connected to the top and left">
-                    <br>11XX [CDEF]
+                    <img S="[CDEF]" src="gfx/TL-11XX.png?raw=true" title="connected to the top and left">
+                    11XX [CDEF]
                   </td>
             </tr>
         </table></td>
@@ -82,41 +95,41 @@
         <td class="TR"><table>
             <tr>
                 <td class="junction" colspan="2">
-                    <img align="top" src="gfx/TR-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
-                    <br>[TB?|B]
+                    <img J="(TB?|B)" src="gfx/TR-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
+                    <strike>0</strike>_<strike>0</strike>_ (TB?|B)
                 </td>
                 <td>
-                    <img align="top" src="gfx/TR-0110.png?raw=true" title="connected to the left and bottom but NOT to top and right">
-                    <br>0110 [6]
+                    <img S="[6]" src="gfx/TR-0110.png?raw=true" title="connected to the left and bottom but NOT to top and right">
+                    0110 [6]
                 </td>
                 <td class="quadrant-label" rowspan="3"><div id="TR"></div></td>
             </tr>
             <tr>
                 <td>
-                    <img align="top" src="gfx/TR-0XX1.png?raw=true" title="connected to the right but NOT to the top">
-                    <br>0XX1 [1357]
+                    <img S="[1357]" src="gfx/TR-0XX1.png?raw=true" title="connected to the right but NOT to the top">
+                    0XX1 [1357]
                 </td>
                 <td>
-                    <img align="top" src="gfx/TR-0000-or-0010-or-0100.png?raw=true" title="NOT connected to the top and NOT to the right and NOT to *both*, left and bottom">
-                    <br>0<strike>11</strike>0 [024]
+                    <img S="[024]" src="gfx/TR-0000-or-0010-or-0100.png?raw=true" title="NOT connected to the top and NOT to the right and NOT to *both*, left and bottom">
+                    0<strike>11</strike>0 [024]
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
-                    <br>[L]
+                    <img J="(L)" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    _1_0 (L)
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img align="top" src="gfx/TR-1XX1.png?raw=true" title="connected to the top and right">
-                    <br>1XX1 [9BDF]
+                    <img S="[9BDF]" src="gfx/TR-1XX1.png?raw=true" title="connected to the top and right">
+                    1XX1 [9BDF]
                 </td>
                 <td>
-                    <img align="top" src="gfx/TR-1XX0.png?raw=true" title="connected to the top but NOT to the right">
-                    <br>1XX0 [9BDF]
+                    <img S="[8ACE]" src="gfx/TR-1XX0.png?raw=true" title="connected to the top but NOT to the right">
+                    1XX0 [8ACE]
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/TR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
-                    <br>[L?R]
+                    <img J="(L?R)" src="gfx/TR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
+                    _X_1 (L?R)
                 </td>
             </tr>
         </table></td>
@@ -128,40 +141,40 @@
             <tr>
                 <td class="quadrant-label" rowspan="3"><div id="BL"></div></td>
                 <td class="junction" rowspan="2">
-                    <img align="top" src="gfx/BL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
-                    <br>[LR?|R]
+                    <img J="(LR?|R)" src="gfx/BL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
+                    _<strike>0</strike>_<strike>0</strike> (LR?|R)
                 </td>
                 <td>
-                    <img align="top" src="gfx/BL-X01X.png?raw=true" title="connected to the bottom but NOT to the left">
-                    <br>X01X [23AB]
+                    <img S="[23AB]" src="gfx/BL-X01X.png?raw=true" title="connected to the bottom but NOT to the left">
+                    X01X [23AB]
                 </td>
                 <td>
-                    <img align="top" src="gfx/BL-X11X.png?raw=true" title="connected to the left and bottom">
-                    <br>X11X [67EF]
+                    <img S="[67EF]" src="gfx/BL-X11X.png?raw=true" title="connected to the left and bottom">
+                    X11X [67EF]
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img align="top" src="gfx/BL-0000-or-0001-or-1000.png?raw=true" title="NOT connected to the left and NOT to the bottom and NOT to *both*, right and top">
-                    <br><strike>1</strike>00<strike>1</strike> [018]
+                    <img S="[018]" src="gfx/BL-0000-or-0001-or-1000.png?raw=true" title="NOT connected to the left and NOT to the bottom and NOT to *both*, right and top">
+                    <strike>1</strike>00<strike>1</strike> [018]
                 </td>
                 <td>
-                    <img align="top" src="gfx/BL-X10X.png?raw=true" title="connected to the left but NOT to the bottom">
-                    <br>X10X [45CD]
+                    <img S="[45CD]" src="gfx/BL-X10X.png?raw=true" title="connected to the left but NOT to the bottom">
+                    X10X [45CD]
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img align="top" src="gfx/BL-1001.png?raw=true" title="connected to the top and to the right but NOT to left and bottom">
-                    <br>1001 [9]
+                    <img S="[9]" src="gfx/BL-1001.png?raw=true" title="connected to the top and to the right but NOT to left and bottom">
+                    1001 [9]
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/BL-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
-                    <br>[T]
+                    <img J="(T)" src="gfx/BL-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
+                    1_0_ (T)
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/BL-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
-                    <br>[T?B]
+                    <img J="(T?B)" src="gfx/BL-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
+                    X_1_ (T?B)
                 </td>
             </tr>
         </table></td>
@@ -170,50 +183,51 @@
         <td class="BR"><table>
             <tr>
                 <td>
-                    <img align="top" src="gfx/BR-XX11.png?raw=true" title="connected to the bottom and right">
-                    <br>XX11 [37BF]
+                    <img S="[37BF]" src="gfx/BR-XX11.png?raw=true" title="connected to the bottom and right">
+                    XX11 [37BF]
                 </td>
                 <td>
-                    <img align="top" src="gfx/BR-XX10.png?raw=true" title="connected to the bottom but NOT to the right">
-                    <br>XX10 [26AE]
+                    <img S="[26AE]" src="gfx/BR-XX10.png?raw=true" title="connected to the bottom but NOT to the right">
+                    XX10 [26AE]
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/BR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
-                    <br>[L?R]
+                    <img J="(L?R)" src="gfx/BR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
+                    _X_1 (L?R)
                 </td>
                 <td class="quadrant-label" rowspan="3"><div id="BR"></div></td>
             </tr>
             <tr>
                 <td>
-                    <img align="top" src="gfx/BR-XX01.png?raw=true" title="connected to the right but NOT to the bottom">
-                    <br>XX01 [159D]
+                    <img S="[159D]" src="gfx/BR-XX01.png?raw=true" title="connected to the right but NOT to the bottom">
+                    XX01 [159D]
                 </td>
                 <td>
-                    <img align="top" src="gfx/BR-0000-or-0100-or-1000.png?raw=true" title="NOT connected to the bottom and NOT to the right and NOT to *both*, top and left">
-                    <br><strike>11</strike>00 [048]
+                    <img S="[048]" src="gfx/BR-0000-or-0100-or-1000.png?raw=true" title="NOT connected to the bottom and NOT to the right and NOT to *both*, top and left">
+                    <strike>11</strike>00 [048]
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/BR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
-                    <br>[L]
+                    <img J="(L)" src="gfx/BR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    _1_0 (L)
                 </td>
             </tr>
             <tr>
                 <td class="junction">
-                    <img align="top" src="gfx/BR-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
-                    <br>[T?B]
+                    <img J="(T?B)" src="gfx/BR-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
+                    X_1_ (T?B)
                 </td>
                 <td class="junction">
-                    <img align="top" src="gfx/BR-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
-                    <br>[T]
+                    <img J="(T)" src="gfx/BR-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
+                    1_0_ (T)
                 </td>
                 <td>
-                    <img align="top" src="gfx/BR-1100.png?raw=true" title="connected to the top and left but NOT to bottom and right">
-                    <br>1100 [C]
+                    <img S="[C]" src="gfx/BR-1100.png?raw=true" title="connected to the top and left but NOT to bottom and right">
+                    1100 [C]
                 </td>
             </tr>
         </table></td>
 
     </tr>
     </table>
+
  </body>
 </html>
