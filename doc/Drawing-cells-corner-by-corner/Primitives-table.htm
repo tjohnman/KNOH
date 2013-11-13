@@ -50,6 +50,17 @@
         td * td[colspan="2"] img {
             margin-left:74px;
         }
+
+        #play td {
+            text-align: center;
+            border:none;
+        }
+
+        #play #mode td {
+            text-align: left;
+            border-right:1px dotted black;
+            padding-right:8px;
+        }
     </style>
 
     <table>
@@ -228,6 +239,152 @@
 
     </tr>
     </table>
+
+    <table id="play" style="position:absolute;right:150px;top:430px;border:1px solid black;">
+    <tr>
+        <td>
+            <table id="mode">
+            <tr>
+                <td>
+                    <input type="radio" name="mode" value="S" checked>Non-junction
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="mode" value="Jv">Vert. junction
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="mode" value="Jh">Horiz. junction
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>T</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input class="dir" S Jv type="checkbox" name="T" value="8"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>L</td>
+                <td><input class="dir" S Jh type="checkbox" name="L" value="4"></td>
+                <td></td>
+                <td><input class="dir" S Jh type="checkbox" name="R" value="1"></td>
+                <td>R</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input class="dir" S Jv type="checkbox" name="B" value="2"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>B</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </table>
+        </td>
+    </tr>
+    </table>
+
+    <script type="text/javascript">
+    <!--
+        var i, mode;
+        var s = { T: 0, L: 0, B: 0, R: 0,
+            value: function () {
+                var out;
+                switch (mode) {
+                    case 'S':
+                        out = this.T + this.L + this.B + this.R;
+                        out = String.fromCharCode(out + ((out < 10) ? 48 : 55));
+                        break;
+                    case 'Jv':
+                        out = (this.T ? 'T' : '') + (this.B ? 'B' : '')
+                        break;
+                    case 'Jh':
+                        out = (this.L ? 'L' : '') + (this.R ? 'R' : '')
+                        break;
+                    default:
+                        throw new TypeError('unknown mode ' + mode);
+                }
+                return out;
+            },
+        };
+        var dirChecks = document.querySelectorAll('#play input.dir');
+        var typeRadios = document.querySelectorAll('#play input[name=mode]');
+
+        function match(which, img) {
+            var a = img.getAttribute(which);
+            a = new RegExp('^' + a + '$');
+            var p = s.value();
+            return (p.length > 0) && a.test(p);
+        }
+
+        function update(which) {
+            var i, imgs;
+            imgs = document.querySelectorAll('td img');
+            for (i = 0; i < imgs.length; i++) {
+                if (match(which, imgs[i])) {
+                    imgs[i].parentNode.style.border = '2px solid red';
+                } else {
+                    imgs[i].parentNode.style.border = '2px solid white';
+                }
+            }
+        }
+
+        function setEnabled(which) {
+            var i;
+            var imgs;
+            var inputs = document.querySelectorAll('#play input.dir');
+            mode = which;
+            for (i = 0; i < inputs.length; i++) {
+                if (inputs[i].hasAttribute(which)) {
+                    inputs[i].removeAttribute('disabled');
+                } else {
+                    inputs[i].setAttribute('disabled', '');
+                }
+            }
+            update(which.substr(0, 1));
+        }
+
+        for (i = 0; i < dirChecks.length; i++) {
+            dirChecks[i].onclick = (function (cb) {
+                var d = cb.getAttribute('name');
+                return function () {
+                    s[d] = cb.checked ? parseInt(cb.value) : 0;
+                    update(mode.substr(0, 1));
+                };
+            }(dirChecks[i]));
+        }
+
+        for (i = 0; i < typeRadios.length; i++) {
+            typeRadios[i].onclick = (function (which) {
+                return function () {
+                    setEnabled(which);
+                };
+            }(typeRadios[i].value));
+            if (typeRadios[i].checked) {
+                typeRadios[i].onclick();
+            }
+        }
+    //-->
+    </script>
 
  </body>
 </html>
