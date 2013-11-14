@@ -1,7 +1,7 @@
 ####Drawing cells corner-by-corner
 Author: **[meisl](https://github.com/meisl)**
 
-Last revision: **November 12, 2013**
+Last revision: **November 14, 2013**
 
 Ref: <a href="Whats-in-a-cell.md">Whats-in-a-cell.md</a>
 <br> https://github.com/tjohnman/KNOH/issues/3#issuecomment-28255654
