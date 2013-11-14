@@ -131,6 +131,8 @@ So, for example: if the base is N (ie. a pnp junction) and red is used for N, th
 Then the illustrations have **labels**. 
 They indicate the cell connections using the same convention as in <a href="../Whats-in-a-cell.md">"What's in a Kohctpryktop cell?"</a>,
 ie. TLBR read MSB-to-LSB.
+Labels in blue are for non-junction primitives and labels in green are for junction ones.
+
 Each label consists of two parts which are essentially equivalent;
 * 1st is in binary
   * X standing for "any" (0 or 1) 
@@ -138,7 +140,13 @@ Each label consists of two parts which are essentially equivalent;
   * two digits *scratched*: this is sort of a negation, meaning "any combination *except* the one shown"
 * 2nd is the regular expression (part) matching the connections code (part), as by our convention
 
-[TODO: example labels]
+Example labels:
+* <img src="gfx/Example-label-TL-T-or-B-or-TB.png">
+(from TL quadrant) any combination of top and bottom bit *except both zero*: `0_1_`, `1_0_` or `1_1_`.
+It's for horizontal junctions only, so left and right are implied and `T` and `B` are used in the regular expression (rather than hex digits).
+* <img src="gfx/Example-label-BL-X01X.png">
+(from BL quadrant) any combination where left is zero and bottom is 1: `0010`, `0011`, `1010` or `1011`.
+It's for non-junctions only, so we just enumerate those four nrs in the regexp, as hex digits: `[23AB]`
 
 
 --
