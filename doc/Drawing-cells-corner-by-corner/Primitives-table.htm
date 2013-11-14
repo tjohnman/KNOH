@@ -27,7 +27,7 @@
             padding:0px;
         }
 
-        .junction { color:green; visibility:xhidden; }
+        .junction { color:green; }
         
         .TL { text-align:right; vertical-align:bottom;  padding-bottom:1px; border-bottom:1px solid black; padding-right: 1px; border-right: 1px solid black; }
         .BL { text-align:right; vertical-align:top;     padding-right: 1px; border-right: 1px solid black; padding-top:   1px; border-top:   1px solid black; }
@@ -69,35 +69,35 @@
             <tr>
                 <td class="quadrant-label" rowspan="3"><div id="TL"></div></td>
                 <td>
-                    <img S="[3]" src="gfx/TL-0011.png?raw=true" title="connected to the right and bottom but NOT to top and left">
+                    <img regexp="[3]" src="gfx/TL-0011.png?raw=true" title="connected to the right and bottom but NOT to top and left">
                     0011 [3]
                 </td>
                 <td class="junction" colspan="2">
-                    <img J="TB?|B" src="gfx/TL-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
+                    <img regexp="TB?|B" src="gfx/TL-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
                     <strike>0</strike>_<strike>0</strike>_ (TB?|B)
                 </td>
             </tr>
             <tr>
                 <td class="junction" rowspan="2">
-                    <img J="LR?|R" src="gfx/TL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
+                    <img regexp="LR?|R" src="gfx/TL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
                     _<strike>0</strike>_<strike>0</strike> (LR?|R)
                 </td>
                 <td>
-                    <img S="[012]" src="gfx/TL-0000-or-0001-or-0010.png?raw=true" title="NOT connected to the left and NOT to the top and NOT to *both*, right and bottom">
+                    <img regexp="[012]" src="gfx/TL-0000-or-0001-or-0010.png?raw=true" title="NOT connected to the left and NOT to the top and NOT to *both*, right and bottom">
                     00<strike>11</strike> [012]
                 </td>
                 <td>
-                    <img S="[4567]" src="gfx/TL-01XX.png?raw=true" title="connected to the left but NOT to the top">
+                    <img regexp="[4567]" src="gfx/TL-01XX.png?raw=true" title="connected to the left but NOT to the top">
                     01XX [4567]
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img S="[89AB]" src="gfx/TL-10XX.png?raw=true" title="connected to the top but NOT to the left">
+                    <img regexp="[89AB]" src="gfx/TL-10XX.png?raw=true" title="connected to the top but NOT to the left">
                     10XX [89AB]
                 </td>
                 <td>
-                    <img S="[CDEF]" src="gfx/TL-11XX.png?raw=true" title="connected to the top and left">
+                    <img regexp="[CDEF]" src="gfx/TL-11XX.png?raw=true" title="connected to the top and left">
                     11XX [CDEF]
                   </td>
             </tr>
@@ -106,40 +106,40 @@
         <td class="TR"><table>
             <tr>
                 <td class="junction" colspan="2">
-                    <img J="(TB?|B)" src="gfx/TR-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
+                    <img regexp="(TB?|B)" src="gfx/TR-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
                     <strike>0</strike>_<strike>0</strike>_ (TB?|B)
                 </td>
                 <td>
-                    <img S="[6]" src="gfx/TR-0110.png?raw=true" title="connected to the left and bottom but NOT to top and right">
+                    <img regexp="[6]" src="gfx/TR-0110.png?raw=true" title="connected to the left and bottom but NOT to top and right">
                     0110 [6]
                 </td>
                 <td class="quadrant-label" rowspan="3"><div id="TR"></div></td>
             </tr>
             <tr>
                 <td>
-                    <img S="[1357]" src="gfx/TR-0XX1.png?raw=true" title="connected to the right but NOT to the top">
+                    <img regexp="[1357]" src="gfx/TR-0XX1.png?raw=true" title="connected to the right but NOT to the top">
                     0XX1 [1357]
                 </td>
                 <td>
-                    <img S="[024]" src="gfx/TR-0000-or-0010-or-0100.png?raw=true" title="NOT connected to the top and NOT to the right and NOT to *both*, left and bottom">
+                    <img regexp="[024]" src="gfx/TR-0000-or-0010-or-0100.png?raw=true" title="NOT connected to the top and NOT to the right and NOT to *both*, left and bottom">
                     0<strike>11</strike>0 [024]
                 </td>
                 <td class="junction">
-                    <img J="(L)" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    <img regexp="(L)" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
                     _1_0 (L)
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img S="[9BDF]" src="gfx/TR-1XX1.png?raw=true" title="connected to the top and right">
+                    <img regexp="[9BDF]" src="gfx/TR-1XX1.png?raw=true" title="connected to the top and right">
                     1XX1 [9BDF]
                 </td>
                 <td>
-                    <img S="[8ACE]" src="gfx/TR-1XX0.png?raw=true" title="connected to the top but NOT to the right">
+                    <img regexp="[8ACE]" src="gfx/TR-1XX0.png?raw=true" title="connected to the top but NOT to the right">
                     1XX0 [8ACE]
                 </td>
                 <td class="junction">
-                    <img J="(L?R)" src="gfx/TR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
+                    <img regexp="(L?R)" src="gfx/TR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
                     _X_1 (L?R)
                 </td>
             </tr>
@@ -152,39 +152,39 @@
             <tr>
                 <td class="quadrant-label" rowspan="3"><div id="BL"></div></td>
                 <td class="junction" rowspan="2">
-                    <img J="(LR?|R)" src="gfx/BL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
+                    <img regexp="(LR?|R)" src="gfx/BL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
                     _<strike>0</strike>_<strike>0</strike> (LR?|R)
                 </td>
                 <td>
-                    <img S="[23AB]" src="gfx/BL-X01X.png?raw=true" title="connected to the bottom but NOT to the left">
+                    <img regexp="[23AB]" src="gfx/BL-X01X.png?raw=true" title="connected to the bottom but NOT to the left">
                     X01X [23AB]
                 </td>
                 <td>
-                    <img S="[67EF]" src="gfx/BL-X11X.png?raw=true" title="connected to the left and bottom">
+                    <img regexp="[67EF]" src="gfx/BL-X11X.png?raw=true" title="connected to the left and bottom">
                     X11X [67EF]
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img S="[018]" src="gfx/BL-0000-or-0001-or-1000.png?raw=true" title="NOT connected to the left and NOT to the bottom and NOT to *both*, right and top">
+                    <img regexp="[018]" src="gfx/BL-0000-or-0001-or-1000.png?raw=true" title="NOT connected to the left and NOT to the bottom and NOT to *both*, right and top">
                     <strike>1</strike>00<strike>1</strike> [018]
                 </td>
                 <td>
-                    <img S="[45CD]" src="gfx/BL-X10X.png?raw=true" title="connected to the left but NOT to the bottom">
+                    <img regexp="[45CD]" src="gfx/BL-X10X.png?raw=true" title="connected to the left but NOT to the bottom">
                     X10X [45CD]
                 </td>
             </tr>
             <tr>
                 <td>
-                    <img S="[9]" src="gfx/BL-1001.png?raw=true" title="connected to the top and to the right but NOT to left and bottom">
+                    <img regexp="[9]" src="gfx/BL-1001.png?raw=true" title="connected to the top and to the right but NOT to left and bottom">
                     1001 [9]
                 </td>
                 <td class="junction">
-                    <img J="(T)" src="gfx/BL-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
+                    <img regexp="(T)" src="gfx/BL-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
                     1_0_ (T)
                 </td>
                 <td class="junction">
-                    <img J="(T?B)" src="gfx/BL-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
+                    <img regexp="(T?B)" src="gfx/BL-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
                     X_1_ (T?B)
                 </td>
             </tr>
@@ -194,44 +194,44 @@
         <td class="BR"><table>
             <tr>
                 <td>
-                    <img S="[37BF]" src="gfx/BR-XX11.png?raw=true" title="connected to the bottom and right">
+                    <img regexp="[37BF]" src="gfx/BR-XX11.png?raw=true" title="connected to the bottom and right">
                     XX11 [37BF]
                 </td>
                 <td>
-                    <img S="[26AE]" src="gfx/BR-XX10.png?raw=true" title="connected to the bottom but NOT to the right">
+                    <img regexp="[26AE]" src="gfx/BR-XX10.png?raw=true" title="connected to the bottom but NOT to the right">
                     XX10 [26AE]
                 </td>
                 <td class="junction">
-                    <img J="(L?R)" src="gfx/BR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
+                    <img regexp="(L?R)" src="gfx/BR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
                     _X_1 (L?R)
                 </td>
                 <td class="quadrant-label" rowspan="3"><div id="BR"></div></td>
             </tr>
             <tr>
                 <td>
-                    <img S="[159D]" src="gfx/BR-XX01.png?raw=true" title="connected to the right but NOT to the bottom">
+                    <img regexp="[159D]" src="gfx/BR-XX01.png?raw=true" title="connected to the right but NOT to the bottom">
                     XX01 [159D]
                 </td>
                 <td>
-                    <img S="[048]" src="gfx/BR-0000-or-0100-or-1000.png?raw=true" title="NOT connected to the bottom and NOT to the right and NOT to *both*, top and left">
+                    <img regexp="[048]" src="gfx/BR-0000-or-0100-or-1000.png?raw=true" title="NOT connected to the bottom and NOT to the right and NOT to *both*, top and left">
                     <strike>11</strike>00 [048]
                 </td>
                 <td class="junction">
-                    <img J="(L)" src="gfx/BR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    <img regexp="(L)" src="gfx/BR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
                     _1_0 (L)
                 </td>
             </tr>
             <tr>
                 <td class="junction">
-                    <img J="(T?B)" src="gfx/BR-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
+                    <img regexp="(T?B)" src="gfx/BR-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
                     X_1_ (T?B)
                 </td>
                 <td class="junction">
-                    <img J="(T)" src="gfx/BR-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
+                    <img regexp="(T)" src="gfx/BR-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
                     1_0_ (T)
                 </td>
                 <td>
-                    <img S="[C]" src="gfx/BR-1100.png?raw=true" title="connected to the top and left but NOT to bottom and right">
+                    <img regexp="[C]" src="gfx/BR-1100.png?raw=true" title="connected to the top and left but NOT to bottom and right">
                     1100 [C]
                 </td>
             </tr>
@@ -305,11 +305,14 @@
 
     <script type="text/javascript">
     <!--
-        var i, mode;
+        var i;
+        var dirChecks = document.querySelectorAll('#play input.dir');
+        var modeRadios = document.querySelectorAll('#play input[name=mode]');
         var s = { T: 0, L: 0, B: 0, R: 0,
+            mode: undefined, // S or Jv or Jh
             value: function () {
                 var out;
-                switch (mode) {
+                switch (this.mode) {
                     case 'S':
                         out = this.T + this.L + this.B + this.R;
                         out = String.fromCharCode(out + ((out < 10) ? 48 : 55));
@@ -326,21 +329,17 @@
                 return out;
             },
         };
-        var dirChecks = document.querySelectorAll('#play input.dir');
-        var typeRadios = document.querySelectorAll('#play input[name=mode]');
 
-        function match(which, img) {
-            var a = img.getAttribute(which);
-            a = new RegExp('^' + a + '$');
+        function match(img) {
+            var a = new RegExp('^' + img.getAttribute('regexp') + '$');
             var p = s.value();
             return (p.length > 0) && a.test(p);
         }
 
-        function update(which) {
-            var i, imgs;
-            imgs = document.querySelectorAll('td img');
+        function update() {
+            var i, imgs = document.querySelectorAll('td img[regexp]');
             for (i = 0; i < imgs.length; i++) {
-                if (match(which, imgs[i])) {
+                if (match(imgs[i])) {
                     imgs[i].parentNode.style.border = '2px solid red';
                 } else {
                     imgs[i].parentNode.style.border = '2px solid white';
@@ -348,19 +347,18 @@
             }
         }
 
-        function setEnabled(which) {
+        function setEnabled(mode) {
             var i;
-            var imgs;
             var inputs = document.querySelectorAll('#play input.dir');
-            mode = which;
+            s.mode = mode;
             for (i = 0; i < inputs.length; i++) {
-                if (inputs[i].hasAttribute(which)) {
+                if (inputs[i].hasAttribute(mode)) {
                     inputs[i].removeAttribute('disabled');
                 } else {
                     inputs[i].setAttribute('disabled', '');
                 }
             }
-            update(which.substr(0, 1));
+            update();
         }
 
         for (i = 0; i < dirChecks.length; i++) {
@@ -368,19 +366,19 @@
                 var d = cb.getAttribute('name');
                 return function () {
                     s[d] = cb.checked ? parseInt(cb.value) : 0;
-                    update(mode.substr(0, 1));
+                    update();
                 };
             }(dirChecks[i]));
         }
 
-        for (i = 0; i < typeRadios.length; i++) {
-            typeRadios[i].onclick = (function (which) {
+        for (i = 0; i < modeRadios.length; i++) {
+            modeRadios[i].onclick = (function (mode) {
                 return function () {
-                    setEnabled(which);
+                    setEnabled(mode);
                 };
-            }(typeRadios[i].value));
-            if (typeRadios[i].checked) {
-                typeRadios[i].onclick();
+            }(modeRadios[i].value));
+            if (modeRadios[i].checked) {
+                modeRadios[i].onclick();
             }
         }
     //-->
