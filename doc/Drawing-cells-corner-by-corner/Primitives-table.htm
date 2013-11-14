@@ -312,7 +312,7 @@
 
         function primitives() { return document.querySelectorAll('td img[regexp]'); }
 
-        var s = { T: 0, L: 0, B: 0, R: 0,
+        var connections = { T: 0, L: 0, B: 0, R: 0,
             mode: undefined, // S or Jv or Jh
             value: function () {
                 var out;
@@ -332,19 +332,18 @@
                 }
                 return out;
             },
+            match: function (primitive) {
+                var regexp = new RegExp('^' + primitive.getAttribute('regexp') + '$');
+                var code = this.value();
+                return (code.length > 0) && regexp.test(code);
+            },
         };
-
-        function match(primitive) {
-            var regexp = new RegExp('^' + primitive.getAttribute('regexp') + '$');
-            var connections = s.value();
-            return (connections.length > 0) && regexp.test(connections);
-        }
 
         function update() {
             var i, p, ps = primitives();
             for (i = 0; i < ps.length; i++) {
                 p = ps[i];
-                if (match(p)) {
+                if (connections.match(p)) {
                     p.parentNode.style.border = '2px solid red';
                 } else {
                     p.parentNode.style.border = '2px solid white';
@@ -354,7 +353,7 @@
 
         function setEnabled(mode) {
             var i, c, cs = dirChecks();
-            s.mode = mode;
+            connections.mode = mode;
             for (i = 0; i < cs.length; i++) {
                 c = cs[i];
                 if (c.hasAttribute(mode)) {
@@ -373,7 +372,7 @@
                 c.onclick = (function (c) {
                     var dir = c.getAttribute('name');
                     return function () {
-                        s[dir] = c.checked ? parseInt(c.value) : 0;
+                        connections[dir] = c.checked ? parseInt(c.value) : 0;
                         update();
                     };
                 }(c));
