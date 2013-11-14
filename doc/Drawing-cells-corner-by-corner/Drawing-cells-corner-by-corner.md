@@ -3,13 +3,22 @@ Author: **[meisl](https://github.com/meisl)**
 
 Last revision: **November 12, 2013**
 
-Ref: https://github.com/tjohnman/KNOH/issues/3#issuecomment-28255654
+Ref: <a href="Whats-in-a-cell.md">Whats-in-a-cell.md</a>
+<br> https://github.com/tjohnman/KNOH/issues/3#issuecomment-28255654
+
 
 --
-#####Note: junctions (in the silicon layer) are completely ignored as of now. That's a TODO.
+This text is about creating a **graphical representation** of the so-called **design area**,
+ie. where the user can place metal and/or silicon on cells and make connections and vias.
+The process of creating such a representation can consist of several stages, 
+*not all of which need to happen at runtime* (!).
+
+It is, however, advisable to have each one of these stages easily repeatable and modifiable.
+In the following we'll describe a rather early stage, one that'll probably *not* happen at runtime,
+but rather be a part of the build process.
+
+
 --
-
-
 #####Cells, inter-cell space and round corners
 The design area looks like an orthogonal grid of cells which are separated by a small inter-cell space.
 This space needs to be drawn differently, depending on connections to neighbouring cells (metal and/or silicon).
@@ -29,15 +38,16 @@ inter-cell space.
 Rather we will treat the inter-cell space that is to the **right or bottom** of a cell as **belonging to
 the cell itself** (by convention, any pair of orthogonal directions could be used).
 
-
 <img src="gfx/cell-background.png?raw=true" title="cell-background" align="middle">
-Cell-background: inter-cell space is in dark gray
+Cell-background: 1-pixel inter-cell space in dark gray
 
+
+--
 #####Layers and vias
 Due to the fact that there can be metal on top of silicon (or on top of nothing, for that matter),
 the metal needs to appear transparent in a way.
 This gives rise to quite a number of shades and we don't want to enumerate them all.
-So we take a layered approach, building up from the bottom (background, incl. inter-cell spacers)
+So we take a **layered approach**, building up from the bottom (background, incl. inter-cell spacers)
 through the middle (silicon) to the top (metal).
 
 
@@ -54,34 +64,59 @@ Hence, putting vias in an intermediate layer makes for one more drawing primitiv
 This is how a via looks like
 
 
+--
+#####Junctions
+[TODO: explain junctions, ref to "What's in a cell"]
+
+<img src="gfx/npnT.png?raw=true" title="horizontal npn junction with (P) base connected to the top" align="middle">
+"npnT": horizontal npn junction with (P) base connected to the top
+
+<img src="gfx/pnpLR.png?raw=true" title="vertical pnp junction with (N) base connected to both, left and right" align="middle">
+"pnpLR": vertical pnp junction with (N) base connected to both, left and right
+
+
+--
 #####Quadrants
 Here's another trick to further systematize things:
 a single **cell is split into 4 quadrants** (conceptually, not visually), 
-each of which can take on one of 5 different shapes.
+each of which can take on one of a number of different shapes.
+We'll call these shapes **"drawing primitive"** and their number depends on the quadrant:
+7, 8, 9, 8 (TL, BL, BR, TR).
 
-Not all 5 ^ 4 = 625 possible combinations of these actually make sense.
-In fact it's only 16 of them, but that's ok.
-We're trading an increase of 4 in the nr of drawing primitives for reduced complexity of the primitives
+Not all 7 &times; 8 &times; 9 &times; 8 = 4032 possible combinations of these actually make sense.
+In fact it's only 16 + 6 = 22 of them, but that's ok.
+
+A subset of 5 in each quadrant is used exclusively for non-junctions (metal or silicon)
+while the rest (2, 3, 4 or 3, resp.) is used exclusively for junctions.
+These again each divide into two subsets, one exclusively for vertical and the other exclusively
+for horizontal junctions.
+
+We're trading an increase of 4 + 6 in the nr of drawing primitives for reduced complexity of the primitives
 and also reduced size of each primitive.
+But not only this, even more important is that we can treat things in a *uniform manner*, ie. we're reducing
+the number of special cases.
 
 Note that the story would be rather different if we were to design a format for storage and - that's the point -
 later retrieval. In that case "can't go wrong *by construction*"
 (very much correlated to avoiding redundancy)
 has quite high a priority - whereas here it has practically none.
 
-By the way, the increase of 4 is entirely due to the "round corner detail".
+By the way, the increase of 4 in the number of non-junction primitives is entirely due to the "round corner detail".
 
 
+--
 #####Taking it all together
 * treating inter-cell space as cell space
-* drawing layers on top of each other (be it 4 or 4, doesn't matter too much)
+* drawing layers on top of each other (be it 3 or 4, doesn't matter too much)
 * viewing each cell as being made of quadrants
 
 we gain the following:
 * not only can each cell be drawn separately (ie. possibly in parallel) but so could each quadrant
-* the drawing primitives are much simpler while their number is still relatively small (22 or 41, resp.)
+* the drawing primitives are much simpler while their number is still relatively small (~40, depending on how you count, or ~80 if vias are not a separate layer)
+* a systematic and uniform way of using them
 
 
+--
 #####Legend
 In the illustrations of drawing primitives below we use three colors:
 * black means the cell border; will be actual black with 100% opacity
