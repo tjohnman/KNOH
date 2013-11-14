@@ -17,6 +17,12 @@ It is, however, advisable to have each one of these stages easily repeatable and
 In the following we'll describe a rather early stage, one that'll probably *not* happen at runtime,
 but rather be a part of the build process.
 
+Our description will be in terms of **drawing primitives** which are to be applied in series,
+or put together one after another.
+We're using this rather abstract term because such primitives can be implemented in several ways.
+For example they could be just images (with transparancy), layered on top of each other.
+Or they could be procedural and themselves consist of lower-level primitives like "fill rectangle" or "draw line".
+
 
 --
 #####Cells, inter-cell space and round corners
@@ -81,7 +87,7 @@ This is how a via looks like
 Here's another trick to further systematize things:
 a single **cell is split into 4 quadrants** (conceptually, not visually), 
 each of which can take on one of a number of different shapes.
-We'll call these shapes **"drawing primitive"** and their number depends on the quadrant:
+The number of shapes depends on the quadrant:
 7, 8, 9, 8 (TL, BL, BR, TR).
 
 Not all 7 &times; 8 &times; 9 &times; 8 = 4032 possible combinations of these actually make sense.
