@@ -305,9 +305,13 @@
 
     <script type="text/javascript">
     <!--
-        var i;
-        var dirChecks = document.querySelectorAll('#play input.dir');
-        var modeRadios = document.querySelectorAll('#play input[name=mode]');
+        
+        function dirChecks() {  return document.querySelectorAll('#play input.dir'); }
+
+        function modeRadios() { return document.querySelectorAll('#play input[name=mode]'); }
+
+        function primitives() { return document.querySelectorAll('td img[regexp]'); }
+
         var s = { T: 0, L: 0, B: 0, R: 0,
             mode: undefined, // S or Jv or Jh
             value: function () {
@@ -324,63 +328,71 @@
                         out = (this.L ? 'L' : '') + (this.R ? 'R' : '')
                         break;
                     default:
-                        throw new TypeError('unknown mode ' + mode);
+                        throw new TypeError('unknown mode ' + this.mode);
                 }
                 return out;
             },
         };
 
-        function match(img) {
-            var a = new RegExp('^' + img.getAttribute('regexp') + '$');
-            var p = s.value();
-            return (p.length > 0) && a.test(p);
+        function match(primitive) {
+            var regexp = new RegExp('^' + primitive.getAttribute('regexp') + '$');
+            var connections = s.value();
+            return (connections.length > 0) && regexp.test(connections);
         }
 
         function update() {
-            var i, imgs = document.querySelectorAll('td img[regexp]');
-            for (i = 0; i < imgs.length; i++) {
-                if (match(imgs[i])) {
-                    imgs[i].parentNode.style.border = '2px solid red';
+            var i, p, ps = primitives();
+            for (i = 0; i < ps.length; i++) {
+                p = ps[i];
+                if (match(p)) {
+                    p.parentNode.style.border = '2px solid red';
                 } else {
-                    imgs[i].parentNode.style.border = '2px solid white';
+                    p.parentNode.style.border = '2px solid white';
                 }
             }
         }
 
         function setEnabled(mode) {
-            var i;
-            var inputs = document.querySelectorAll('#play input.dir');
+            var i, c, cs = dirChecks();
             s.mode = mode;
-            for (i = 0; i < inputs.length; i++) {
-                if (inputs[i].hasAttribute(mode)) {
-                    inputs[i].removeAttribute('disabled');
+            for (i = 0; i < cs.length; i++) {
+                c = cs[i];
+                if (c.hasAttribute(mode)) {
+                    c.removeAttribute('disabled');
                 } else {
-                    inputs[i].setAttribute('disabled', '');
+                    c.setAttribute('disabled', '');
                 }
             }
             update();
         }
 
-        for (i = 0; i < dirChecks.length; i++) {
-            dirChecks[i].onclick = (function (cb) {
-                var d = cb.getAttribute('name');
-                return function () {
-                    s[d] = cb.checked ? parseInt(cb.value) : 0;
-                    update();
-                };
-            }(dirChecks[i]));
-        }
+        function init() {
+            var i, c, cs = dirChecks(), r, rs = modeRadios();
+            for (i = 0; i < cs.length; i++) {
+                c = cs[i];
+                c.onclick = (function (c) {
+                    var dir = c.getAttribute('name');
+                    return function () {
+                        s[dir] = c.checked ? parseInt(c.value) : 0;
+                        update();
+                    };
+                }(c));
+            }
 
-        for (i = 0; i < modeRadios.length; i++) {
-            modeRadios[i].onclick = (function (mode) {
-                return function () {
-                    setEnabled(mode);
-                };
-            }(modeRadios[i].value));
-            if (modeRadios[i].checked) {
-                modeRadios[i].onclick();
+            for (i = 0; i < rs.length; i++) {
+                r = rs[i];
+                r.onclick = (function (mode) {
+                    return function () {
+                        setEnabled(mode);
+                    };
+                }(r.value));
+                if (r.checked) {
+                    r.onclick();
+                }
             }
         }
+
+        init();
     //-->
     </script>
 
