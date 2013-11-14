@@ -67,6 +67,7 @@ This is how a via looks like
 --
 #####Junctions
 [TODO: explain junctions, ref to "What's in a cell"]
+**base**, **horizontal vs vertical**, **implied connections**, **complementary**
 
 <img src="gfx/npnT.png?raw=true" title="horizontal npn junction with (P) base connected to the top" align="middle">
 "npnT": horizontal npn junction with (P) base connected to the top
@@ -118,18 +119,29 @@ we gain the following:
 
 --
 #####Legend
-In the illustrations of drawing primitives below we use three colors:
+In the illustrations of drawing primitives below we use **five colors**:
 * black means the cell border; will be actual black with 100% opacity
-* white means 100% transparent, ie. nothing
-* gray means the layer color, ie. eg yellow for P-silicon, red for N-silicon and 50% white for metal
+* white means 100% transparent, ie. nothing drawn there
+* light gray means the layer color, ie. eg yellow for P-silicon, red for N-silicon and 50% white for metal
+* dark gray (junctions only): somewhat shaded color of the cell's silicon (which is what the base is made of),
+eg. darker red for N, darker yellow for P
+* green (junctions only): this stands for the color of the *complementary* silicon wrt. the cell's (base) silicon.
+So, for example: if the base is N (ie. a pnp junction) and red is used for N, then green would mean yellow (assuming that's what we use for P)
 
-And the illustrations are labelled with a code that represents the cell connections using the same
-convention as in <a href="../Whats-in-a-cell.md">"What's in a Kohctpryktop cell?"</a>,
+Then the illustrations have **labels**. 
+They indicate the cell connections using the same convention as in <a href="../Whats-in-a-cell.md">"What's in a Kohctpryktop cell?"</a>,
 ie. TLBR read MSB-to-LSB.
-Each code consists of two parts which are essentially equivalent;
-* 1st is in binary, X standing for "any" (0 or 1) and two 1s *scratched*
-meaning "NAND" (0 and 0 or 0 and 1 or 1 and 0 but not 1 and 1)
-* 2nd is in the form of a regular expression, as alternatives of hex digits.
+Each label consists of two parts which are essentially equivalent;
+* 1st is in binary
+  * X standing for "any" (0 or 1) 
+  * _ (underscore) meaning "implied" (for junctions)
+  * two digits *scratched*: this is sort of a negation, meaning "any combination *except* the one shown"
+* 2nd is the regular expression (part) matching the connections code (part), as by our convention
+
+[TODO: example labels]
 
 
+--
+#####Table of drawing primitives
+See <a href="Primitives-table.htm">Primitives-table.htm</a> for an interactive version.
 <img src="gfx/Primitives-table.png?raw=true" title="Table of drawing primitives">
