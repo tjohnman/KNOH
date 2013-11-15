@@ -125,7 +125,7 @@
                     0<strike>11</strike>0 [024]
                 </td>
                 <td class="junction">
-                    <img regexp="(L)" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    <img regexp="(npn|pnp)(L)" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
                     _1_0 (L)
                 </td>
             </tr>
@@ -305,10 +305,6 @@
 
     <script type="text/javascript">
     <!--
-        
-        function dirChecks() {  return document.querySelectorAll('#play input.dir'); }
-        function modeRadios() { return document.querySelectorAll('#play input[name=mode]'); }
-        function primitives() { return document.querySelectorAll('td img[regexp]'); }
 
         function bind(f) {
             var args = Array.prototype.slice.call(arguments, 1);
@@ -316,6 +312,17 @@
                 return f.apply(this, args.concat(Array.prototype.slice.call(arguments, 0)));
             };
         }
+
+        function forEach(a, f) {
+            var i;
+            for (i = 0; i < a.length; i++) {
+                f(a[i]);
+            }
+        }
+
+        function dirChecks()  { return document.querySelectorAll('#play input.dir'); }
+        function modeRadios() { return document.querySelectorAll('#play input[name=mode]'); }
+        function primitives() { return document.querySelectorAll('td img[regexp]'); }
 
         var connections = { T: 0, L: 0, B: 0, R: 0,
             mode: undefined, // S or Jv or Jh
@@ -346,51 +353,41 @@
         };
 
         function update() {
-            var i, p, ps = primitives();
-            for (i = 0; i < ps.length; i++) {
-                p = ps[i];
+            forEach(primitives(), function (p) {
                 if (connections.match(p)) {
                     p.parentNode.style.border = '2px solid red';
                 } else {
                     p.parentNode.style.border = '2px solid white';
                 }
-            }
+            });
         }
 
         function setEnabled(mode) {
-            var i, c, cs = dirChecks();
             connections.mode = mode;
-            for (i = 0; i < cs.length; i++) {
-                c = cs[i];
+            forEach(dirChecks(), function (c) {
                 if (c.hasAttribute(mode)) {
                     c.removeAttribute('disabled');
                 } else {
                     c.setAttribute('disabled', '');
                 }
-            }
+            });
             update();
         }
 
         function init() {
-            var i, c, cs = dirChecks(), r, rs = modeRadios();
-            for (i = 0; i < cs.length; i++) {
-                c = cs[i];
-                c.onclick = (function (c) {
-                    var dir = c.getAttribute('name');
-                    return function () {
-                        connections[dir] = c.checked ? parseInt(c.value) : 0;
-                        update();
-                    };
-                }(c));
-            }
+            forEach(dirChecks(), function (c) {
+                c.onclick = bind(function (c) {
+                    connections[c.getAttribute('name')] = c.checked ? parseInt(c.value) : 0;
+                    update();
+                }, c);
+            });
 
-            for (i = 0; i < rs.length; i++) {
-                r = rs[i];
+            forEach(modeRadios(), function (r) {
                 r.onclick = bind(setEnabled, r.value);
                 if (r.checked) {
                     r.onclick();
                 }
-            }
+            });
         }
 
         init();
