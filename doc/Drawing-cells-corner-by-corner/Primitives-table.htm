@@ -306,16 +306,8 @@
     <script type="text/javascript">
     <!--
 
-        function bind(f) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            return function () {
-                return f.apply(this, args.concat(Array.prototype.slice.call(arguments, 0)));
-            };
-        }
-
         function forEach(a, f) {
-            var i;
-            for (i = 0; i < a.length; i++) {
+            for (var i = 0; i < a.length; i++) {
                 f(a[i]);
             }
         }
@@ -352,7 +344,7 @@
             },
         };
 
-        function update() {
+        function updatePrimitives() {
             forEach(primitives(), function (p) {
                 if (connections.match(p)) {
                     p.parentNode.style.border = '2px solid red';
@@ -362,35 +354,31 @@
             });
         }
 
-        function setEnabled(mode) {
-            connections.mode = mode;
-            forEach(dirChecks(), function (c) {
-                if (c.hasAttribute(mode)) {
-                    c.removeAttribute('disabled');
-                } else {
-                    c.setAttribute('disabled', '');
-                }
-            });
-            update();
-        }
+        forEach(dirChecks(), function (c) {
+            c.onclick = function () {
+                connections[c.getAttribute('name')] = c.checked ? parseInt(c.value) : 0;
+                updatePrimitives();
+            };
+        });
 
-        function init() {
-            forEach(dirChecks(), function (c) {
-                c.onclick = bind(function (c) {
-                    connections[c.getAttribute('name')] = c.checked ? parseInt(c.value) : 0;
-                    update();
-                }, c);
-            });
+        forEach(modeRadios(), function (r) {
+            r.onclick = function () {
+                var mode = r.value;
+                connections.mode = mode;
+                forEach(dirChecks(), function (c) {
+                    if (c.hasAttribute(mode)) {
+                        c.removeAttribute('disabled');
+                    } else {
+                        c.setAttribute('disabled', '');
+                    }
+                });
+                updatePrimitives();
+            };
+            if (r.checked) {
+                r.onclick();
+            }
+        });
 
-            forEach(modeRadios(), function (r) {
-                r.onclick = bind(setEnabled, r.value);
-                if (r.checked) {
-                    r.onclick();
-                }
-            });
-        }
-
-        init();
     //-->
     </script>
 
