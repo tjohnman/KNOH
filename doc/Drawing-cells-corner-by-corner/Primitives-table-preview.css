@@ -24,12 +24,24 @@
 #preview div img {
     position: absolute;
     border:none;
+    width:127px;    /* workaround IE-bug: make img look like it's already */
+    height:127px;   /* been loaded. */
 }
 
-#preview div img[layer=background] { z-index:0; }
-#preview div img[layer=silicon] { z-index:1; }
-#preview div img[layer=via] { z-index:2; }
-#preview div img[layer=metal] { z-index:3; }
+#preview div img[layer=background] {
+    z-index:0;
+    width:136px;
+    height:136px;
+}
+#preview div img[layer=silicon] {
+    z-index:1;
+}
+#preview div img[layer=via] {
+    z-index:2;
+}
+#preview div img[layer=metal] {
+    z-index:3;
+}
 
 #preview div img.TL {
     top: -10px;
@@ -49,10 +61,4 @@
 #preview div img.TR {
     top: -10px;
     left: -1px;
-}
-
-#play td {
-    color: black;
-    text-align: center;
-    border:none;
 }
