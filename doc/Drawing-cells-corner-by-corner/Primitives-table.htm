@@ -4,9 +4,6 @@
     <title>Primitives table / corner-by-corner</title>
     <meta name="Generator" content="EditPlus">
     <meta name="Author" content="meisl">
- </head>
-
- <body>
     <style type="text/css">
         table {
             margin:0px;
@@ -27,14 +24,14 @@
             padding:0px;
         }
 
-        .junction { color:green; }
+        td.junction { color:green; }
         
-        .TL { text-align:right; vertical-align:bottom;  padding-bottom:1px; border-bottom:1px solid black; padding-right: 1px; border-right: 1px solid black; }
-        .BL { text-align:right; vertical-align:top;     padding-right: 1px; border-right: 1px solid black; padding-top:   1px; border-top:   1px solid black; }
-        .BR { text-align:left; vertical-align:top;      padding-top:   1px; border-top:   1px solid black; padding-left:  1px; border-left:  1px solid black; }
-        .TR { text-align:left; vertical-align:bottom;   padding-left:  1px; border-left:  1px solid black; padding-bottom:1px; border-bottom:1px solid black; }
+        td.TL { text-align:right; vertical-align:bottom;  padding-bottom:1px; border-bottom:1px solid black; padding-right: 1px; border-right: 1px solid black; }
+        td.BL { text-align:right; vertical-align:top;     padding-right: 1px; border-right: 1px solid black; padding-top:   1px; border-top:   1px solid black; }
+        td.BR { text-align:left; vertical-align:top;      padding-top:   1px; border-top:   1px solid black; padding-left:  1px; border-left:  1px solid black; }
+        td.TR { text-align:left; vertical-align:bottom;   padding-left:  1px; border-left:  1px solid black; padding-bottom:1px; border-bottom:1px solid black; }
 
-        .quadrant-label * { font-size: 20px; font-weight: bold; color:black; }
+        td.quadrant-label * { font-size: 20px; font-weight: bold; color:black; }
 
         td * td img {
             display:block;
@@ -51,14 +48,14 @@
             margin-left:74px;
         }
 
-        #overlay {
+        #preview {
             position:absolute;left:950px;top:50px;
             width: 350px;
             height: 350px;
             border: 0px solid red;
         }
 
-        #overlay div {
+        #preview div {
             position: absolute;
             width: 116px;
             height: 116px;
@@ -66,37 +63,42 @@
             border: 1px solid white;
         }
 
-        #overlay div[x="0"] { left: 0px; }
-        #overlay div[x="1"] { left: 117px; }
-        #overlay div[x="2"] { left: 234px; }
+        #preview div[x="0"] { left: 0px; }
+        #preview div[x="1"] { left: 117px; }
+        #preview div[x="2"] { left: 234px; }
 
-        #overlay div[y="0"] { top: 0px; }
-        #overlay div[y="1"] { top: 117px; }
-        #overlay div[y="2"] { top: 234px; }
+        #preview div[y="0"] { top: 0px; }
+        #preview div[y="1"] { top: 117px; }
+        #preview div[y="2"] { top: 234px; }
 
-        #overlay div img {
+        #preview div img {
             position: absolute;
             border:none;
         }
 
-        #overlay div img.TL {
+        #preview div img[layer=background] { z-index:0; }
+        #preview div img[layer=silicon] { z-index:1; }
+        #preview div img[layer=via] { z-index:2; }
+        #preview div img[layer=metal] { z-index:3; }
+
+        #preview div img.TL {
             top: -10px;
             left: -10px;
         }
 
-        #overlay div img.TR {
-            top: -10px;
-            left: -2px;
-        }
-
-        #overlay div img.BR {
-            top: -2px;
-            left: -2px;
-        }
-
-        #overlay div img.BL {
-            top: -11px;
+        #preview div img.BL {
+            top: -1px;
             left: -10px;
+        }
+
+        #preview div img.BR {
+            top: -1px;
+            left: -1px;
+        }
+
+        #preview div img.TR {
+            top: -10px;
+            left: -1px;
         }
 
         #play td {
@@ -119,6 +121,11 @@
             border-top:1px dotted black;
         }
     </style>
+    <style type="text/css" src="Primitives-table-preview.css"></style>
+
+ </head>
+
+ <body>
 
     <table>
     <tr>
@@ -297,43 +304,6 @@
     </tr>
     </table>
 
-    <div id="overlay">
-        <div x="0" y="0">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-        <div x="1" y="0">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-        <div x="2" y="0">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-
-        <div x="0" y="1">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-        <div x="1" y="1">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-            <img layer="silicon"    class="TL" src="gfx/TL-L-or-R-or-LR.png?raw=true">
-            <img layer="silicon"    class="TR" src="gfx/TR-R-or-LR.png?raw=true">
-            <img layer="silicon"    class="BR" src="gfx/BR-R-or-LR.png?raw=true">
-            <img layer="silicon"    class="BL" src="gfx/BL-L-or-R-or-LR.png?raw=true">
-            <img layer="via"        class="TL" src="gfx/via.png?raw=true">
-        </div>
-        <div x="2" y="1">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-
-        <div x="0" y="2">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-        <div x="1" y="2">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-        <div x="2" y="2">
-            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
-        </div>
-    </div>
-
     <table id="play" style="position:absolute;left:950px;top:430px;border:1px solid black;">
     <tr>
         <td>
@@ -431,7 +401,9 @@
         function modeRadios()  { return document.querySelectorAll('#play input[type=radio][name=mode]'); }
         function dirChecks()   { return document.querySelectorAll('#play input[type=checkbox].dir'); }
         function classRadios() { return document.querySelectorAll('#play input[type=radio][name=class]'); }
-        function primitives()  { return document.querySelectorAll('td img[regexp]'); }
+        function primitives(corner, s) {
+            return document.querySelectorAll('td' + (corner ? '.' + corner : '') + ' img[regexp]' + (s || ''));
+        }
 
         var connections = { T: 0, L: 0, B: 0, R: 0,
             mode: undefined, // S or Jv or Jh
@@ -503,6 +475,78 @@
                 c.onclick();
             }
         });
+
+
+        /******************************************************************************************/
+        var corners = ['TL', 'BL', 'TR', 'BR'];
+        var directions = ['R', 'B', 'L', 'T'];
+
+        function Cell(container, x, y) {
+            var self = this;
+            this.div = document.createElement('div');
+            this.div.setAttribute('x', x);
+            this.div.setAttribute('y', y);
+            container.appendChild(this.div);
+
+            this.cellBg = new Image();
+            this.cellBg.setAttribute('layer', 'background');
+            this.cellBg.setAttribute('class', 'TL');
+            this.cellBg.src = 'gfx/cell-background.png?raw=true';
+            this.div.appendChild(this.cellBg);
+
+            this.silicon = { neighbours: {} };
+            forEach(corners, function (corner) {
+                var img = self.silicon[corner] = new Image();
+                img.setAttribute('layer', 'silicon');
+                img.setAttribute('class', corner);
+                img.src = 'gfx/noop.png?raw=true';
+                self.div.appendChild(img);
+            });
+            forEach(directions, function (direction) {
+                self.silicon.neighbours[direction] = null;
+            });
+        }
+        Cell.prototype = {
+            setSilicon: function (sType) {
+                var self = this;
+                if (sType) {
+                    forEach(corners, function (corner) {
+                        self.silicon[corner].src = primitives(corner, '[class="S-0"]')[0].src;
+                        if (corner === 'BR') {
+                           // alert(self.silicon[corner].src);
+                        }
+                    });
+                } else { // clear silicon
+                    forEach(corners, function (corner) {
+                        self.silicon[corner].src = 'gfx/noop.png?raw=true';
+                    });
+                    
+                }
+            },
+        };
+
+        function initPreview() {
+            var x, y, cells = [];
+            var previewDiv = document.createElement('div');
+            previewDiv.setAttribute('id', 'preview');
+            for (x = 0; x < 3; x++) {
+                cells[x] = [];
+                for (y = 0; y < 3; y++) {
+                    cells[x][y] = new Cell(previewDiv, x, y);
+                }
+            }
+            document.querySelector('body').appendChild(previewDiv);
+            return cells;
+        }
+        
+        var cells = initPreview();
+        cells[1][0].setSilicon('n');
+        cells[0][1].setSilicon('n');
+        cells[1][1].setSilicon('n');
+        cells[2][1].setSilicon('n');
+        cells[1][2].setSilicon('n');
+        /*
+        */
 
     //-->
     </script>
