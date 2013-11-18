@@ -45,7 +45,7 @@ Rather we will treat the inter-cell space that is to the **right or bottom** of 
 the cell itself** (by convention, any pair of orthogonal directions could be used).
 
 <img src="gfx/cell-background.png?raw=true" title="cell-background" align="middle">
-Cell-background: 1-pixel inter-cell space in dark gray
+Cell-background: 1-pixel inter-cell space in darker blue
 
 
 --

@@ -51,6 +51,54 @@
             margin-left:74px;
         }
 
+        #overlay {
+            position:absolute;left:950px;top:50px;
+            width: 350px;
+            height: 350px;
+            border: 0px solid red;
+        }
+
+        #overlay div {
+            position: absolute;
+            width: 116px;
+            height: 116px;
+            overflow: hidden;
+            border: 1px solid white;
+        }
+
+        #overlay div[x="0"] { left: 0px; }
+        #overlay div[x="1"] { left: 117px; }
+        #overlay div[x="2"] { left: 234px; }
+
+        #overlay div[y="0"] { top: 0px; }
+        #overlay div[y="1"] { top: 117px; }
+        #overlay div[y="2"] { top: 234px; }
+
+        #overlay div img {
+            position: absolute;
+            border:none;
+        }
+
+        #overlay div img.TL {
+            top: -10px;
+            left: -10px;
+        }
+
+        #overlay div img.TR {
+            top: -10px;
+            left: -2px;
+        }
+
+        #overlay div img.BR {
+            top: -2px;
+            left: -2px;
+        }
+
+        #overlay div img.BL {
+            top: -11px;
+            left: -10px;
+        }
+
         #play td {
             color: black;
             text-align: center;
@@ -249,23 +297,60 @@
     </tr>
     </table>
 
-    <table id="play" style="position:absolute;right:150px;top:430px;border:1px solid black;">
+    <div id="overlay">
+        <div x="0" y="0">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+        <div x="1" y="0">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+        <div x="2" y="0">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+
+        <div x="0" y="1">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+        <div x="1" y="1">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+            <img layer="silicon"    class="TL" src="gfx/TL-L-or-R-or-LR.png?raw=true">
+            <img layer="silicon"    class="TR" src="gfx/TR-R-or-LR.png?raw=true">
+            <img layer="silicon"    class="BR" src="gfx/BR-R-or-LR.png?raw=true">
+            <img layer="silicon"    class="BL" src="gfx/BL-L-or-R-or-LR.png?raw=true">
+            <img layer="via"        class="TL" src="gfx/via.png?raw=true">
+        </div>
+        <div x="2" y="1">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+
+        <div x="0" y="2">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+        <div x="1" y="2">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+        <div x="2" y="2">
+            <img layer="background" class="TL" src="gfx/cell-background.png?raw=true">
+        </div>
+    </div>
+
+    <table id="play" style="position:absolute;left:950px;top:430px;border:1px solid black;">
     <tr>
         <td>
             <table id="mode">
             <tr>
                 <td>
-                    <input type="radio" name="mode" value="S" checked>Non-junction
+                    <input type="radio" name="mode" value="S" checked>Non-junction (S)
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="radio" name="mode" value="Jv">Vert. junction
+                    <input type="radio" name="mode" value="Jv">Vert. junction (Jv)
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="radio" name="mode" value="Jh">Horiz. junction
+                    <input type="radio" name="mode" value="Jh">Horiz. junction (Jh)
                 </td>
             </tr>
             </table>
