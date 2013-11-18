@@ -1,0 +1,42 @@
+table {
+    margin:0px;
+    border:0px solid red;
+    padding:0px;
+}
+td {
+    margin:0px;
+    border:0px solid green;
+    padding:0px;
+    text-align:center; vertical-align:middle;
+    font-family:monospace; font-size:11px; font-weight: bold;
+    color:blue;
+}
+
+td * td {
+    border:0px solid black;
+    padding:0px;
+}
+
+td.junction { color:green; }
+
+td.TL { text-align:right; vertical-align:bottom;  padding-bottom:1px; border-bottom:1px solid black; padding-right: 1px; border-right: 1px solid black; }
+td.BL { text-align:right; vertical-align:top;     padding-right: 1px; border-right: 1px solid black; padding-top:   1px; border-top:   1px solid black; }
+td.BR { text-align:left; vertical-align:top;      padding-top:   1px; border-top:   1px solid black; padding-left:  1px; border-left:  1px solid black; }
+td.TR { text-align:left; vertical-align:bottom;   padding-left:  1px; border-left:  1px solid black; padding-bottom:1px; border-bottom:1px solid black; }
+
+td.quadrant-label * { font-size: 20px; font-weight: bold; color:black; }
+
+td * td img {
+    display:block;
+    border:0px solid black;
+    padding:5px;
+    padding-bottom:0px;
+}
+td.TL * td img { padding-right:8px; }
+td.TR * td img { padding-left: 8px; }
+td.BL * td img { padding-right:8px; padding-top:8px; }
+td.BR * td img { padding-left: 8px; padding-top:8px; }
+
+td * td[colspan="2"] img {
+    margin-left:74px;
+}
