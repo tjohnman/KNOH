@@ -1,3 +1,5 @@
+// requires util.js
+
 var corners = ['BR', 'BL', 'TL', 'TR']; // do NOT change order!
 var directions = ['R', 'B', 'L', 'T']; // do NOT change order!
 var dirVectors = {
@@ -38,9 +40,14 @@ function Cell(container, x, y) {
     this.x = x;
     this.y = y;
     this.container = container;
+    this.silicon = { connections: 0, type: null };
+    this.via = { type: false };
+    this.metal = { type: false };
+
     this.div = document.createElement('div');
     this.div.setAttribute('x', x);
     this.div.setAttribute('y', y);
+    this.div.setAttribute('title', this.toString());
     container.div.appendChild(this.div);
 
     this.cellBg = new Image();
@@ -49,7 +56,6 @@ function Cell(container, x, y) {
     this.cellBg.src = 'gfx/cell-background.png?raw=true';
     this.div.appendChild(this.cellBg);
 
-    this.silicon = { connections: 0, type: null };
     forEach(corners, function (corner) {
         var img = self.silicon[corner] = new Image();
         img.setAttribute('layer', 'silicon');
@@ -59,6 +65,43 @@ function Cell(container, x, y) {
     });
 }
 Cell.prototype = {
+    getNeighbour: function (direction) {
+        direction = directions[direction];
+        return this.container.get(this.x + direction.dx, this.y + direction.dy);
+    },
+    hasNeighbour: function (direction) {
+        return !!this.getNeighbour(direction);
+    },
+    isJunction: function () {
+        return (this.silicon.type === 'npn') || (this.silicon.type === 'pnp');
+    },
+    getSiliconType: function () {
+        return this.isJunction() ? this.silicon.type.substr(1,1) : this.silicon.type;
+    },
+    hasSilicon: function () {
+        return !!this.getSiliconType();
+    },
+    hasComplementarySilicon: function (otherCell) {
+        return this.hasSilicon() && otherCell.getSiliconType() === (this.getSiliconType() === 'n' ? 'p' : 'n');
+    },
+    isVerticalJunction: function () {
+        var t = this.getNeighbour('T');
+        var b = this.getNeighbour('B');
+        return this.isJunction()
+            && t && this.isConnected('silicon', 'T') && this.hasComplementarySilicon(t)
+            && b && this.isConnected('silicon', 'B') && this.hasComplementarySilicon(b)
+            // TODO: check L *or* R
+        ;
+    },
+    isHorizontalJunction: function () {
+        var l = this.getNeighbour('L');
+        var r = this.getNeighbour('R');
+        return this.isJunction()
+            && l && this.isConnected('silicon', 'L') && this.hasComplementarySilicon(l)
+            && r && this.isConnected('silicon', 'R') && this.hasComplementarySilicon(r)
+            // TODO: check T *or* B
+        ;
+    },
     get: function (layer) {
         return this[layer].type;
     },
@@ -66,28 +109,42 @@ Cell.prototype = {
         var self = this, oLayer = this[layer];
         if (type) {
             forEach(corners, function (corner) {
-                var img = oLayer[corner];
-                img.src = primitives(corner, '[class="S-' + corner.getPrimitiveIndex(oLayer.connections) + '"]')[0].src;
+                var clazz, img = oLayer[corner];
+                if ((layer === 'silicon') && (self.isJunction())) {
+                    clazz = 'J';
+                    if (self.isHorizontalJunction()) {
+                        clazz += 'h-' + (self.isConnected('silicon', 'B') ? '1' : '0');
+                    } else {
+                        clazz += 'v-' + (self.isConnected('silicon', 'R') ? '1' : '0');
+                    }
+                } else {
+                    clazz = 'S-' + corner.getPrimitiveIndex(oLayer.connections);
+                }
+                var p = primitives(corner, '.' + clazz)[0];
+                if (!p) {
+                    alert(corner + ': ' + clazz);
+                } else {
+                    img.src = p.src;
+                }
             });
         } else { // clear
             forEach(directions, function (direction) {
                 self.disconnect(layer, direction);
             });
             forEach(corners, function (corner) {
-                oLayer[corner].src = 'gfx/1x1-transparent.png?raw=true';
+                var img = oLayer[corner];
+                img.src = 'gfx/1x1-transparent.png?raw=true';
             });
         }
         oLayer.type = type;
+        this.div.setAttribute('title', this.toString());
         return this;
     },
     getConnections: function (layer) {
         return this[layer].connections;
     },
-    getNeighbour: function (direction) {
-        direction = directions[direction];
-        return this.container[this.x + direction.dx][this.y + direction.dy];
-    },
     isConnected: function (layer, direction) {
+        direction = directions[direction];
         return !!(this[layer].connections & direction.bitMask);
     },
     connect: function (layer, direction) {
@@ -108,15 +165,42 @@ Cell.prototype = {
         }
         return this;
     },
+    toString: function () {
+        var out = this.metal.type ? 'm' + toHexDigit(this.metal.connections) : '_';
+        if (!this.silicon.type) {
+            out += '_';
+        } else {
+            out += this.silicon.type;
+            if (!this.isJunction()) { // non-junction
+                out += toHexDigit(this.silicon.connections);
+            } else { //junction
+                if (this.isHorizontalJunction()) {
+                    out += this.isConnected('silicon', 'T') ? 'T' : '';
+                    out += this.isConnected('silicon', 'B') ? 'B' : '';
+                } else {
+                    out += this.isConnected('silicon', 'L') ? 'L' : '';
+                    out += this.isConnected('silicon', 'R') ? 'R' : '';
+                }
+            }
+        }
+        return out + ' (' + this.getSiliconType() + ' / ' +  toHexDigit(this.silicon.connections) + ')';
+    }
 };
 
 function initPreview() {
-    var x, y, cells = [];
+    var x, y, cells = {
+        width: 3,
+        height: 3,
+        get: function (x, y) {
+            var c = this[x];
+            return c && c[y] || null;
+        },
+    };
     cells.div = document.createElement('div');
     cells.div.setAttribute('id', 'preview');
-    for (x = 0; x < 3; x++) {
+    for (x = 0; x < cells.width; x++) {
         cells[x] = [];
-        for (y = 0; y < 3; y++) {
+        for (y = 0; y < cells.height; y++) {
             cells[x][y] = new Cell(cells, x, y);
         }
     }

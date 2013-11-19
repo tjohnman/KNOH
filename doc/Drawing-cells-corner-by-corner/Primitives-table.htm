@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="Primitives-table-play.css">
     <link rel="stylesheet" type="text/css" href="Primitives-preview.css">
     
+    <script type="text/javascript" src="util.js"></script>
     <script type="text/javascript" src="Primitives-table-play.js"></script>
     <script type="text/javascript" src="Primitives-preview.js"></script>
 
@@ -19,7 +20,7 @@
             var cells = initPreview();
             cells[1][0].set('silicon', 'n');
             cells[0][1].set('silicon', 'n');
-            cells[1][1].set('silicon', 'n');
+            cells[1][1].set('silicon', 'npn');
             cells[2][1].set('silicon', 'n');
             cells[1][2].set('silicon', 'n');
 
@@ -27,8 +28,8 @@
             cells[1][1].connect('silicon', 'L');
             cells[1][1].connect('silicon', 'B');
             cells[1][1].connect('silicon', 'R');
-            cells[1][1].disconnect('silicon', 'L');
             cells[1][1].disconnect('silicon', 'B');
+            //cells[1][1].disconnect('silicon', 'B');
         };
     //-->
     </script>

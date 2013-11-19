@@ -1,8 +1,4 @@
-function forEach(a, f) {
-    for (var i = 0; i < a.length; i++) {
-        f(a[i], i);
-    }
-}
+// requires util.js
 
 function modeRadios()  { return document.querySelectorAll('#play input[type=radio][name=mode]'); }
 function dirChecks()   { return document.querySelectorAll('#play input[type=checkbox].dir'); }
@@ -19,7 +15,7 @@ var connections = { T: 0, L: 0, B: 0, R: 0,
         switch (this.mode) {
             case 'S':
                 out = this.T + this.L + this.B + this.R;
-                out = 'm' + String.fromCharCode(out + ((out < 10) ? 48 : 55));
+                out = 'm' + toHexDigit(out);
                 break;
             case 'Jh':
                 out = 'npn' + (this.T ? 'T' : '') + (this.B ? 'B' : '')
@@ -51,7 +47,7 @@ function updatePrimitives() {
 function initPlay() {
     forEach(dirChecks(), function (c) {
         c.onclick = function () {
-            connections[c.getAttribute('name')] = c.checked ? parseInt(c.value) : 0;
+            connections[c.getAttribute('name')] = c.checked ? parseInt(c.value, 10) : 0;
             updatePrimitives();
         };
     });
