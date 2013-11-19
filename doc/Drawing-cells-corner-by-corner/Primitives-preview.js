@@ -49,16 +49,13 @@ function Cell(container, x, y) {
     this.cellBg.src = 'gfx/cell-background.png?raw=true';
     this.div.appendChild(this.cellBg);
 
-    this.silicon = { neighbours: {}, connections: 0, type: null };
+    this.silicon = { connections: 0, type: null };
     forEach(corners, function (corner) {
         var img = self.silicon[corner] = new Image();
         img.setAttribute('layer', 'silicon');
         img.setAttribute('class', corner.toString());
-        img.src = 'gfx/noop.png?raw=true';
+        img.src = 'gfx/1x1-transparent.png?raw=true';
         self.div.appendChild(img);
-    });
-    forEach(directions, function (direction) {
-        self.silicon.neighbours[direction] = null;
     });
 }
 Cell.prototype = {
@@ -77,7 +74,7 @@ Cell.prototype = {
                 self.disconnect(layer, direction);
             });
             forEach(corners, function (corner) {
-                oLayer[corner].src = 'gfx/noop.png?raw=true';
+                oLayer[corner].src = 'gfx/1x1-transparent.png?raw=true';
             });
         }
         oLayer.type = type;
@@ -91,29 +88,23 @@ Cell.prototype = {
         return this.container[this.x + direction.dx][this.y + direction.dy];
     },
     isConnected: function (layer, direction) {
-        return !!this[layer].neighbours[direction];
+        return !!(this[layer].connections & direction.bitMask);
     },
     connect: function (layer, direction) {
-        var n;
         direction = directions[direction];
         if (!this.isConnected(layer, direction)) {
-            n = this.getNeighbour(direction);
-            this[layer].neighbours[direction] = n;
             this[layer].connections |= direction.bitMask;
             this.set(layer, this.get(layer));
-            n.connect(layer, direction.opposite);
+            this.getNeighbour(direction).connect(layer, direction.opposite);
         }
         return this;
     },
     disconnect: function (layer, direction) {
-        var n;
         direction = directions[direction];
         if (this.isConnected(layer, direction)) {
-            n = this.getNeighbour(direction);
-            this[layer].neighbours[direction] = null;
             this[layer].connections &= ~direction.bitMask;
             this.set(layer, this.get(layer));
-            n.disconnect(layer, direction.opposite);
+            this.getNeighbour(direction).disconnect(layer, direction.opposite);
         }
         return this;
     },
