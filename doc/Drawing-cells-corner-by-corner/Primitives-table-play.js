@@ -9,7 +9,11 @@ function primitives(corner, s) {
 
 var connections = (function () {
     var ctor = function () {
-        EventEmitter.call(this, 'change');
+        var self = this;
+        EventEmitter.call(this, 'change', 'dirChange', 'modeChange', 'classChange');
+        this.on('dirChange', function () { self.emit('change'); });
+        this.on('modeChange', function () { self.emit('change'); });
+        this.on('classChange', function () { self.emit('change'); });
     };
     inherit(ctor, EventEmitter, {   T: 0, L: 0, B: 0, R: 0,
         mode: undefined, // S or Jv or Jh
@@ -17,15 +21,15 @@ var connections = (function () {
         set: function (dir, connected) {
             dir = directions[dir];
             this[dir] = connected ? dir.bitMask : 0;
-            this.emit('change');
+            this.emit('dirChange', dir, connected);
         },
         setMode: function (mode) {
             this.mode = mode;
-            this.emit('change');
+            this.emit('modeChange', mode);
         },
         setClazz: function (clazz) {
             this.clazz = clazz;
-            this.emit('change');
+            this.emit('classChange', clazz);
         },
         value: function () {
             var out;

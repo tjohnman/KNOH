@@ -185,23 +185,24 @@ inherit(Cell, EventEmitter, {
         direction = directions[direction];
         return !!(this[layer].connections & direction.bitMask);
     },
-    connect: function (layer, direction) {
+    setConnected: function (layer, direction, connected) {
         direction = directions[direction];
-        if (!this.isConnected(layer, direction)) {
-            this[layer].connections |= direction.bitMask;
+        if (this.isConnected(layer, direction) !== !!connected) {
+            if (connected) {
+                this[layer].connections |= direction.bitMask;
+            } else {
+                this[layer].connections &= ~direction.bitMask;
+            }
             this.emit('change');
-            this.getNeighbour(direction).connect(layer, direction.opposite);
+            this.getNeighbour(direction).setConnected(layer, direction.opposite, connected);
         }
         return this;
     },
+    connect: function (layer, direction) {
+        return this.setConnected(layer, direction, true);
+    },
     disconnect: function (layer, direction) {
-        direction = directions[direction];
-        if (this.isConnected(layer, direction)) {
-            this[layer].connections &= ~direction.bitMask;
-            this.emit('change');
-            this.getNeighbour(direction).disconnect(layer, direction.opposite);
-        }
-        return this;
+        return this.setConnected(layer, direction, false);
     },
     toString: function () {
         var out = this.metal.type ? 'm' + toHexDigit(this.metal.connections) : '_';
@@ -245,5 +246,9 @@ function initPreview() {
         }
     }
     document.querySelector('body').appendChild(cells.div);
+
+    connections.on('dirChange', function (dir, connected) {
+        cells[1][1].setConnected('silicon', dir, connected);
+    });
     return cells;
 }
