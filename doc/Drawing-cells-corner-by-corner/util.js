@@ -30,6 +30,10 @@ function inherit(subConstructor, superConstructor, protoTemplate) {
             subConstructor.prototype[k] = protoTemplate[k];
         }
     }
+    // IE bug:
+    if (protoTemplate.hasOwnProperty('toString')) {
+        subConstructor.prototype.toString = protoTemplate.toString;
+    }
 }
 
 
