@@ -14,8 +14,9 @@ var connections = (function () {
     inherit(ctor, EventEmitter, {   T: 0, L: 0, B: 0, R: 0,
         mode: undefined, // S or Jv or Jh
         clazz: undefined, // -, 0, 1, 2, 3 or 4
-        set: function (dir, value) {
-            this[dir] = value;
+        set: function (dir, connected) {
+            dir = directions[dir];
+            this[dir] = connected ? dir.bitMask : 0;
             this.emit('change');
         },
         setMode: function (mode) {
@@ -67,7 +68,7 @@ function initPlay() {
 
     forEach(dirChecks(), function (c) {
         c.onclick = function () {
-            connections.set(c.getAttribute('name'), c.checked ? parseInt(c.value, 10) : 0);
+            connections.set(c.getAttribute('name'), c.checked);
         };
     });
 
