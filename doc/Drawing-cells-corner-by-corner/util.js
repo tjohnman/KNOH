@@ -20,3 +20,36 @@ Object.create = Object.create || (function () {
         return out;
     };
 }());
+
+
+function inherit(subConstructor, superConstructor, protoTemplate) {
+    subConstructor.prototype = Object.create(superConstructor.prototype);
+    subConstructor.prototype.constructor = subConstructor;
+    for (var k in protoTemplate) {
+        if (protoTemplate.hasOwnProperty(k)) {
+            subConstructor.prototype[k] = protoTemplate[k];
+        }
+    }
+}
+
+
+function EventEmitter() {
+    var self = this;
+    this.events = {};
+    forEach(arguments, function (evtName) {
+        self.events[evtName] = [];
+    });
+}
+
+EventEmitter.prototype = {
+    on: function (evtName, cb) {
+        this.events[evtName].push(cb);
+    },
+    emit: function (evtName) {
+        //console.log(this.x + ', ' + this.y + ': ' + this.toString());   // <<<<<<<<<<<<<<<<<<<<<<<<<<<< debug
+        var args = Array.prototype.slice.call(arguments, 1);
+        forEach(this.events[evtName], function (cb) {
+            cb.apply(this, args);
+        });
+    },
+};

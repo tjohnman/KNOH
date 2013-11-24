@@ -65,80 +65,83 @@ function ImgCellView(cell) {
     this.clearLayer('background');
     this.update();
 }
-ImgCellView.prototype = Object.create(CellView.prototype);
-ImgCellView.prototype.initCorner = function (layer, corner) {
-    var img = new Image();
-    img.setAttribute('layer', layer);
-    img.setAttribute('class', corner.toString());
-    this.div.appendChild(img);
-    this[layer][corner] = img;
-    this[layer].cornerImages.push(img);
-};
-ImgCellView.prototype.clearLayer = function (layer) {
-    var defaultImg = this[layer].defaultImg;
-    forEach(this[layer].cornerImages, function (img) {
-        img.src = defaultImg;
-    });
-},
-ImgCellView.prototype.initLayer = function (layer, corners, defaultImg) {
-    var self = this;
-    self[layer] = {
-        corners: corners,
-        cornerImages: [],
-        defaultImg: defaultImg || 'gfx/1x1-transparent.png?raw=true',
-    };
-    forEach(corners, function (corner) {
-        self.initCorner(layer, corner, defaultImg);
-    });
-};
-ImgCellView.prototype.getHtmlElement = function () {
-    return this.div;
-};
-ImgCellView.prototype.update = function () {
-    var self = this;
-    var s = this.cell.getSiliconType();
 
-    if (this.cell.hasVia()) {
-        this.via.TL.src = 'gfx/via.png?raw=true';
-    } else {
-        this.clearLayer('via');
-    }
-
-    if (s) {
-        forEach(this.silicon.corners, function (corner) {
-            var clazz, img = self.silicon[corner];
-            if (self.cell.isJunction()) {
-                clazz = 'J';
-                if (self.cell.isHorizontalJunction()) {
-                    clazz += 'h-' + (self.cell.isConnected('silicon', 'B') ? '1' : '0');
-                } else {
-                    clazz += 'v-' + (self.cell.isConnected('silicon', 'R') ? '1' : '0');
-                }
-            } else {
-                clazz = 'S-' + corner.getPrimitiveIndex(self.cell.getConnections('silicon'));
-            }
-            var p = primitives(corner, '.' + clazz)[0];
-            if (!p) {
-                alert(corner + ': ' + clazz);
-            } else {
-                img.src = p.src;
-            }
+inherit(ImgCellView, CellView, {
+    initCorner: function (layer, corner) {
+        var img = new Image();
+        img.setAttribute('layer', layer);
+        img.setAttribute('class', corner.toString());
+        this.div.appendChild(img);
+        this[layer][corner] = img;
+        this[layer].cornerImages.push(img);
+    },
+    clearLayer: function (layer) {
+        var defaultImg = this[layer].defaultImg;
+        forEach(this[layer].cornerImages, function (img) {
+            img.src = defaultImg;
         });
-    } else {
-        this.clearLayer('silicon');
-    }
+    },
+    initLayer: function (layer, corners, defaultImg) {
+        var self = this;
+        self[layer] = {
+            corners: corners,
+            cornerImages: [],
+            defaultImg: defaultImg || 'gfx/1x1-transparent.png?raw=true',
+        };
+        forEach(corners, function (corner) {
+            self.initCorner(layer, corner, defaultImg);
+        });
+    },
+    getHtmlElement: function () {
+        return this.div;
+    },
+    update: function () {
+        var self = this;
+        var s = this.cell.getSiliconType();
 
-    if (this.cell.hasMetal()) {
+        if (this.cell.hasVia()) {
+            this.via.TL.src = 'gfx/via.png?raw=true';
+        } else {
+            this.clearLayer('via');
+        }
 
-    } else {
-        this.clearLayer('metal');
-    }
+        if (s) {
+            forEach(this.silicon.corners, function (corner) {
+                var clazz, img = self.silicon[corner];
+                if (self.cell.isJunction()) {
+                    clazz = 'J';
+                    if (self.cell.isHorizontalJunction()) {
+                        clazz += 'h-' + (self.cell.isConnected('silicon', 'B') ? '1' : '0');
+                    } else {
+                        clazz += 'v-' + (self.cell.isConnected('silicon', 'R') ? '1' : '0');
+                    }
+                } else {
+                    clazz = 'S-' + corner.getPrimitiveIndex(self.cell.getConnections('silicon'));
+                }
+                var p = primitives(corner, '.' + clazz)[0];
+                if (!p) {
+                    alert(corner + ': ' + clazz);
+                } else {
+                    img.src = p.src;
+                }
+            });
+        } else {
+            this.clearLayer('silicon');
+        }
 
-    this.div.setAttribute('title', this.cell.toString());
-};
+        if (this.cell.hasMetal()) {
+
+        } else {
+            this.clearLayer('metal');
+        }
+
+        this.div.setAttribute('title', this.cell.toString());
+    },
+});
 
 
 function Cell(container, x, y) {
+    EventEmitter.call(this, 'change');
     var self = this;
     this.x = x;
     this.y = y;
@@ -151,17 +154,7 @@ function Cell(container, x, y) {
         change: [],
     };
 }
-Cell.prototype = {
-    on: function (evtName, cb) {
-        this.events[evtName].push(cb);
-    },
-    emit: function (evtName) {
-        //console.log(this.x + ', ' + this.y + ': ' + this.toString());   // <<<<<<<<<<<<<<<<<<<<<<<<<<<< debug
-        var args = Array.prototype.slice.call(arguments, 1);
-        forEach(this.events[evtName], function (cb) {
-            cb.apply(this, args);
-        });
-    },
+inherit(Cell, EventEmitter, {
     getNeighbour: function (direction) {
         direction = directions[direction];
         return this.container.get(this.x + direction.dx, this.y + direction.dy);
@@ -264,7 +257,7 @@ Cell.prototype = {
         }
         return out + ' (' + this.getSiliconType() + ' / ' +  toHexDigit(this.silicon.connections) + ')';
     }
-};
+});
 
 function initPreview() {
     var x, y, c, v, cells = {
