@@ -35,6 +35,108 @@ forEach(corners, function (cName, i) {
     };
 });
 
+function CellView(cell) {
+    var self = this;
+    cell.on('change', function () {
+        self.update();
+    });
+    this.cell = cell;
+}
+CellView.prototype = {
+    update: function () { throw new Error("NYI"); },
+    getHtmlElement: function () { throw new Error("NYI"); },
+};
+
+function ImgCellView(cell) {
+    var self = this;
+    CellView.call(this, cell);
+
+    this.div = document.createElement('div');
+    this.div.setAttribute('x', cell.x);
+    this.div.setAttribute('y', cell.y);
+    this.div.setAttribute('title', this.cell.toString());
+
+    this.initLayer('background', ['TL'], 'gfx/cell-background.png?raw=true');
+    this.initLayer('silicon', corners);
+    this.initLayer('via', ['TL']);
+    this.initLayer('metal', corners);
+
+    this.clearLayer('background');
+    this.update();
+}
+ImgCellView.prototype = Object.create(CellView.prototype);
+ImgCellView.prototype.initCorner = function (layer, corner) {
+    var img = new Image();
+    img.setAttribute('layer', layer);
+    img.setAttribute('class', corner.toString());
+    this.div.appendChild(img);
+    this[layer][corner] = img;
+    this[layer].cornerImages.push(img);
+};
+ImgCellView.prototype.clearLayer = function (layer) {
+    var defaultImg = this[layer].defaultImg;
+    forEach(this[layer].cornerImages, function (img) {
+        img.src = defaultImg;
+    });
+},
+ImgCellView.prototype.initLayer = function (layer, corners, defaultImg) {
+    var self = this;
+    self[layer] = {
+        corners: corners,
+        cornerImages: [],
+        defaultImg: defaultImg || 'gfx/1x1-transparent.png?raw=true',
+    };
+    forEach(corners, function (corner) {
+        self.initCorner(layer, corner, defaultImg);
+    });
+};
+ImgCellView.prototype.getHtmlElement = function () {
+    return this.div;
+};
+ImgCellView.prototype.update = function () {
+    var self = this;
+    var s = this.cell.getSiliconType();
+
+    if (this.cell.hasVia()) {
+        this.via.TL.src = 'gfx/via.png?raw=true';
+    } else {
+        this.clearLayer('via');
+    }
+
+    if (s) {
+        forEach(this.silicon.corners, function (corner) {
+            var clazz, img = self.silicon[corner];
+            if (self.cell.isJunction()) {
+                clazz = 'J';
+                if (self.cell.isHorizontalJunction()) {
+                    clazz += 'h-' + (self.cell.isConnected('silicon', 'B') ? '1' : '0');
+                } else {
+                    clazz += 'v-' + (self.cell.isConnected('silicon', 'R') ? '1' : '0');
+                }
+            } else {
+                clazz = 'S-' + corner.getPrimitiveIndex(self.cell.getConnections('silicon'));
+            }
+            var p = primitives(corner, '.' + clazz)[0];
+            if (!p) {
+                alert(corner + ': ' + clazz);
+            } else {
+                img.src = p.src;
+            }
+        });
+    } else {
+        this.clearLayer('silicon');
+    }
+
+    if (this.cell.hasMetal()) {
+
+    } else {
+        this.clearLayer('metal');
+    }
+
+    this.div.setAttribute('title', this.cell.toString());
+};
+
+
 function Cell(container, x, y) {
     var self = this;
     this.x = x;
@@ -42,35 +144,35 @@ function Cell(container, x, y) {
     this.container = container;
     this.silicon = { connections: 0, type: null };
     this.via = { type: false };
-    this.metal = { type: false };
+    this.metal = { connections: 0, type: false };
 
-    this.div = document.createElement('div');
-    this.div.setAttribute('x', x);
-    this.div.setAttribute('y', y);
-    this.div.setAttribute('title', this.toString());
-    container.div.appendChild(this.div);
-
-    this.cellBg = new Image();
-    this.cellBg.setAttribute('layer', 'background');
-    this.cellBg.setAttribute('class', 'TL');
-    this.cellBg.src = 'gfx/cell-background.png?raw=true';
-    this.div.appendChild(this.cellBg);
-
-    forEach(corners, function (corner) {
-        var img = self.silicon[corner] = new Image();
-        img.setAttribute('layer', 'silicon');
-        img.setAttribute('class', corner.toString());
-        img.src = 'gfx/1x1-transparent.png?raw=true';
-        self.div.appendChild(img);
-    });
+    this.events = {
+        change: [],
+    };
 }
 Cell.prototype = {
+    on: function (evtName, cb) {
+        this.events[evtName].push(cb);
+    },
+    emit: function (evtName) {
+        //console.log(this.x + ', ' + this.y + ': ' + this.toString());   // <<<<<<<<<<<<<<<<<<<<<<<<<<<< debug
+        var args = Array.prototype.slice.call(arguments, 1);
+        forEach(this.events[evtName], function (cb) {
+            cb.apply(this, args);
+        });
+    },
     getNeighbour: function (direction) {
         direction = directions[direction];
         return this.container.get(this.x + direction.dx, this.y + direction.dy);
     },
     hasNeighbour: function (direction) {
         return !!this.getNeighbour(direction);
+    },
+    hasVia: function () {
+        return !!this.via.type;
+    },
+    hasMetal: function () {
+        return !!this.metal.type;
     },
     isJunction: function () {
         return (this.silicon.type === 'npn') || (this.silicon.type === 'pnp');
@@ -107,37 +209,13 @@ Cell.prototype = {
     },
     set: function (layer, type) {
         var self = this, oLayer = this[layer];
-        if (type) {
-            forEach(corners, function (corner) {
-                var clazz, img = oLayer[corner];
-                if ((layer === 'silicon') && (self.isJunction())) {
-                    clazz = 'J';
-                    if (self.isHorizontalJunction()) {
-                        clazz += 'h-' + (self.isConnected('silicon', 'B') ? '1' : '0');
-                    } else {
-                        clazz += 'v-' + (self.isConnected('silicon', 'R') ? '1' : '0');
-                    }
-                } else {
-                    clazz = 'S-' + corner.getPrimitiveIndex(oLayer.connections);
-                }
-                var p = primitives(corner, '.' + clazz)[0];
-                if (!p) {
-                    alert(corner + ': ' + clazz);
-                } else {
-                    img.src = p.src;
-                }
-            });
-        } else { // clear
+        if (!type) { // clear
             forEach(directions, function (direction) {
                 self.disconnect(layer, direction);
             });
-            forEach(corners, function (corner) {
-                var img = oLayer[corner];
-                img.src = 'gfx/1x1-transparent.png?raw=true';
-            });
         }
         oLayer.type = type;
-        this.div.setAttribute('title', this.toString());
+        this.emit('change');
         return this;
     },
     getConnections: function (layer) {
@@ -151,7 +229,7 @@ Cell.prototype = {
         direction = directions[direction];
         if (!this.isConnected(layer, direction)) {
             this[layer].connections |= direction.bitMask;
-            this.set(layer, this.get(layer));
+            this.emit('change');
             this.getNeighbour(direction).connect(layer, direction.opposite);
         }
         return this;
@@ -160,7 +238,7 @@ Cell.prototype = {
         direction = directions[direction];
         if (this.isConnected(layer, direction)) {
             this[layer].connections &= ~direction.bitMask;
-            this.set(layer, this.get(layer));
+            this.emit('change');
             this.getNeighbour(direction).disconnect(layer, direction.opposite);
         }
         return this;
@@ -188,7 +266,7 @@ Cell.prototype = {
 };
 
 function initPreview() {
-    var x, y, cells = {
+    var x, y, c, v, cells = {
         width: 3,
         height: 3,
         get: function (x, y) {
@@ -201,7 +279,9 @@ function initPreview() {
     for (x = 0; x < cells.width; x++) {
         cells[x] = [];
         for (y = 0; y < cells.height; y++) {
-            cells[x][y] = new Cell(cells, x, y);
+            c = new Cell(cells, x, y);
+            cells[x][y] = c;
+            cells.div.appendChild(new ImgCellView(c).getHtmlElement());
         }
     }
     document.querySelector('body').appendChild(cells.div);
