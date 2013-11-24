@@ -10,6 +10,15 @@ function primitives(corner, s) {
 var connections = { T: 0, L: 0, B: 0, R: 0,
     mode: undefined, // S or Jv or Jh
     clazz: undefined, // -, 0, 1, 2, 3 or 4
+    set: function (dir, value) {
+        this[dir] = value;
+    },
+    setMode: function (mode) {
+        this.mode = mode;
+    },
+    setClazz: function (clazz) {
+        this.clazz = clazz;
+    },
     value: function () {
         var out;
         switch (this.mode) {
@@ -47,7 +56,7 @@ function updatePrimitives() {
 function initPlay() {
     forEach(dirChecks(), function (c) {
         c.onclick = function () {
-            connections[c.getAttribute('name')] = c.checked ? parseInt(c.value, 10) : 0;
+            connections.set(c.getAttribute('name'), c.checked ? parseInt(c.value, 10) : 0);
             updatePrimitives();
         };
     });
@@ -55,7 +64,7 @@ function initPlay() {
     forEach(modeRadios(), function (r) {
         r.onclick = function () {
             var mode = r.value;
-            connections.mode = mode;
+            connections.setMode(mode);
             forEach(dirChecks(), function (c) {
                 c[c.hasAttribute(mode) ? "removeAttribute" : "setAttribute"]('disabled', '');
             });
@@ -71,7 +80,7 @@ function initPlay() {
 
     forEach(classRadios(), function (c) {
         c.onclick = function () {
-            connections.clazz = c.value;
+            connections.setClazz(c.value);
             updatePrimitives();
         };
         if (c.checked) {

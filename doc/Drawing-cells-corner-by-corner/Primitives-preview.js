@@ -1,4 +1,5 @@
 // requires util.js
+// requires Primitives-table-play.js
 
 var corners = ['BR', 'BL', 'TL', 'TR']; // do NOT change order!
 var directions = ['R', 'B', 'L', 'T']; // do NOT change order!
