@@ -134,35 +134,44 @@ inherit(Cell, EventEmitter, {
     hasMetal: function () {
         return !!this.metal.type;
     },
-    isJunction: function () {
-        return (this.silicon.type === 'npn') || (this.silicon.type === 'pnp');
-    },
     getSiliconType: function () {
-        return this.isJunction() ? this.silicon.type.substr(1,1) : this.silicon.type;
+        return this.silicon.type;
     },
     hasSilicon: function () {
         return !!this.getSiliconType();
+    },
+    hasSameSilicon: function (otherCell) {
+        return this.hasSilicon() && otherCell.getSiliconType() === this.getSiliconType();
     },
     hasComplementarySilicon: function (otherCell) {
         return this.hasSilicon() && otherCell.getSiliconType() === (this.getSiliconType() === 'n' ? 'p' : 'n');
     },
     isVerticalJunction: function () {
         var t = this.getNeighbour('T');
+        var l = this.getNeighbour('L');
         var b = this.getNeighbour('B');
-        return this.isJunction()
-            && t && this.isConnected('silicon', 'T') && this.hasComplementarySilicon(t)
+        var r = this.getNeighbour('R');
+        return t && this.isConnected('silicon', 'T') && this.hasComplementarySilicon(t)
             && b && this.isConnected('silicon', 'B') && this.hasComplementarySilicon(b)
-            // TODO: check L *or* R
+            && (l && this.isConnected('silicon', 'L') && this.hasSameSilicon(l)
+             || r && this.isConnected('silicon', 'R') && this.hasSameSilicon(r)
+            )
         ;
     },
     isHorizontalJunction: function () {
+        var t = this.getNeighbour('T');
         var l = this.getNeighbour('L');
+        var b = this.getNeighbour('B');
         var r = this.getNeighbour('R');
-        return this.isJunction()
-            && l && this.isConnected('silicon', 'L') && this.hasComplementarySilicon(l)
+        return l && this.isConnected('silicon', 'L') && this.hasComplementarySilicon(l)
             && r && this.isConnected('silicon', 'R') && this.hasComplementarySilicon(r)
-            // TODO: check T *or* B
+            && (t && this.isConnected('silicon', 'T') && this.hasSameSilicon(t)
+             || b && this.isConnected('silicon', 'B') && this.hasSameSilicon(b)
+            )
         ;
+    },
+    isJunction: function () {
+        return this.isVerticalJunction() || this.isHorizontalJunction();
     },
     get: function (layer) {
         return this[layer].type;
@@ -205,6 +214,7 @@ inherit(Cell, EventEmitter, {
         return this.setConnected(layer, direction, false);
     },
     toString: function () {
+        var cs;
         var out = this.metal.type ? 'm' + toHexDigit(this.metal.connections) : '_';
         if (!this.silicon.type) {
             out += '_';
@@ -214,9 +224,13 @@ inherit(Cell, EventEmitter, {
                 out += toHexDigit(this.silicon.connections);
             } else { //junction
                 if (this.isHorizontalJunction()) {
+                    cs = this.getNeighbour('L').getSiliconType(); // must be complementary silicon
+                    out = cs + out + cs;
                     out += this.isConnected('silicon', 'T') ? 'T' : '';
                     out += this.isConnected('silicon', 'B') ? 'B' : '';
                 } else {
+                    cs = this.getNeighbour('T').getSiliconType(); // must be complementary silicon
+                    out = cs + out + cs;
                     out += this.isConnected('silicon', 'L') ? 'L' : '';
                     out += this.isConnected('silicon', 'R') ? 'R' : '';
                 }
