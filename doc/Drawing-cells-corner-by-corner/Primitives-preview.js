@@ -219,18 +219,18 @@ inherit(Cell, EventEmitter, {
         if (!this.silicon.type) {
             out += '_';
         } else {
-            out += this.silicon.type;
             if (!this.isJunction()) { // non-junction
+                out += this.silicon.type;
                 out += toHexDigit(this.silicon.connections);
             } else { //junction
                 if (this.isHorizontalJunction()) {
                     cs = this.getNeighbour('L').getSiliconType(); // must be complementary silicon
-                    out = cs + out + cs;
+                    out += cs + this.silicon.type + cs;
                     out += this.isConnected('silicon', 'T') ? 'T' : '';
                     out += this.isConnected('silicon', 'B') ? 'B' : '';
                 } else {
                     cs = this.getNeighbour('T').getSiliconType(); // must be complementary silicon
-                    out = cs + out + cs;
+                    out += cs + this.silicon.type + cs;
                     out += this.isConnected('silicon', 'L') ? 'L' : '';
                     out += this.isConnected('silicon', 'R') ? 'R' : '';
                 }
@@ -261,8 +261,45 @@ function initPreview() {
     }
     document.querySelector('body').appendChild(cells.div);
 
+    var top = cells[1][0].set('silicon', 'n');
+    var left = cells[0][1].set('silicon', 'n');
+    var center = cells[1][1].set('silicon', 'n');
+    var right = cells[2][1].set('silicon', 'n');
+    var bottom = cells[1][2].set('silicon', 'n');
+    var all = [top, left, center, right, bottom];
+    var hNeighbours = [left, right];
+    var vNeighbours = [top, bottom];
+
     connections.on('dirChange', function (dir, connected) {
-        cells[1][1].setConnected('silicon', dir, connected);
+        center.setConnected('silicon', dir, connected);
+    });
+    connections.on('modeChange', function (mode) {
+        switch (mode) {
+            case 'S':
+                forEach(all, function (c) {
+                    c.set('silicon', 'n');
+                });
+                break;
+            case 'Jv':
+                forEach(hNeighbours, function (c) {
+                    c.set('silicon', 'p');
+                });
+                forEach(vNeighbours, function (c) {
+                    c.set('silicon', 'n');
+                });
+                center.set('silicon', 'p');
+                break;
+            case 'Jh':
+                forEach(hNeighbours, function (c) {
+                    c.set('silicon', 'n');
+                });
+                forEach(vNeighbours, function (c) {
+                    c.set('silicon', 'p');
+                });
+                center.set('silicon', 'p');
+                break;
+            default:
+        }
     });
     return cells;
 }

@@ -15,23 +15,9 @@
 
     <script type="text/javascript">
     <!--
-        var cells;
         window.onload = function () {
             initPlay();
-
-            cells = initPreview();
-            cells[1][0].set('silicon', 'p');
-            cells[0][1].set('silicon', 'n');
-            cells[1][1].set('silicon', 'p');
-            cells[2][1].set('silicon', 'n');
-            cells[1][2].set('silicon', 'p');
-/*
-            cells[1][1].connect('silicon', 'T');
-            cells[1][1].connect('silicon', 'L');
-            cells[1][1].connect('silicon', 'B');
-            cells[1][1].connect('silicon', 'R');
-            //cells[1][1].disconnect('silicon', 'B');
-*/
+            initPreview();
         };
     //-->
     </script>
