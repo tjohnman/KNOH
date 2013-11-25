@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+    <title>Primitives table / corner-by-corner</title>
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="meisl">
+    <link rel="stylesheet" type="text/css" href="Primitives-table.css">
+    <link rel="stylesheet" type="text/css" href="Primitives-table-play.css">
+    <link rel="stylesheet" type="text/css" href="Primitives-preview.css">
+    
+    <script type="text/javascript" src="util.js"></script>
+    <script type="text/javascript" src="quadrants.js"></script>
+    <script type="text/javascript" src="Primitives-table-play.js"></script>
+    <script type="text/javascript" src="Primitives-preview.js"></script>
+
+    <script type="text/javascript">
+    <!--
+        window.onload = function () {
+            initPlay();
+            initPreview();
+        };
+    //-->
+    </script>
+ </head>
+
+ <body>
+
+    <table id="primitives">
+    <tr>
+        <td class="TL"><table>
+            <tr>
+                <td class="quadrant-label" rowspan="3"><div id="TL"></div></td>
+                <td>
+                    <img class="S-0" regexp="[mnp][3]" src="gfx/TL-0011.png?raw=true" title="connected to the right and bottom but NOT to top and left">
+                    0011 [3]
+                </td>
+                <td class="junction" colspan="2">
+                    <img class="Jh-0 Jh-1" regexp="(npn|pnp)(TB?|B)" src="gfx/TL-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
+                    <strike>0</strike>_<strike>0</strike>_ (TB?|B)
+                </td>
+            </tr>
+            <tr>
+                <td class="junction" rowspan="2">
+                    <img class="Jv-0 Jv-1" regexp="(npn|pnp)(LR?|R)" src="gfx/TL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
+                    _<strike>0</strike>_<strike>0</strike> (LR?|R)
+                </td>
+                <td>
+                    <img class="S-1" regexp="[mnp][012]" src="gfx/TL-0000-or-0001-or-0010.png?raw=true" title="NOT connected to the left and NOT to the top and NOT to *both*, right and bottom">
+                    00<strike>11</strike> [012]
+                </td>
+                <td>
+                    <img class="S-2" regexp="[mnp][4567]" src="gfx/TL-01XX.png?raw=true" title="connected to the left but NOT to the top">
+                    01XX [4567]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="S-3" regexp="[mnp][89AB]" src="gfx/TL-10XX.png?raw=true" title="connected to the top but NOT to the left">
+                    10XX [89AB]
+                </td>
+                <td>
+                    <img class="S-4" regexp="[mnp][CDEF]" src="gfx/TL-11XX.png?raw=true" title="connected to the top and left">
+                    11XX [CDEF]
+                  </td>
+            </tr>
+        </table></td>
+
+        <td class="TR"><table>
+            <tr>
+                <td class="junction" colspan="2">
+                    <img class="Jh-0 Jh-1" regexp="(npn|pnp)(TB?|B)" src="gfx/TR-T-or-B-or-TB.png?raw=true" title="junction: base connected to the top or bottom or both (left and right implicit)">
+                    <strike>0</strike>_<strike>0</strike>_ (TB?|B)
+                </td>
+                <td>
+                    <img class="S-0" regexp="[mnp][6]" src="gfx/TR-0110.png?raw=true" title="connected to the left and bottom but NOT to top and right">
+                    0110 [6]
+                </td>
+                <td class="quadrant-label" rowspan="3"><div id="TR"></div></td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="S-3" regexp="[mnp][1357]" src="gfx/TR-0XX1.png?raw=true" title="connected to the right but NOT to the top">
+                    0XX1 [1357]
+                </td>
+                <td>
+                    <img class="S-1" regexp="[mnp][024]" src="gfx/TR-0000-or-0010-or-0100.png?raw=true" title="NOT connected to the top and NOT to the right and NOT to *both*, left and bottom">
+                    0<strike>11</strike>0 [024]
+                </td>
+                <td class="junction">
+                    <img class="Jv-0" regexp="(npn|pnp)(L)" src="gfx/TR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    _1_0 (L)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="S-4" regexp="[mnp][9BDF]" src="gfx/TR-1XX1.png?raw=true" title="connected to the top and right">
+                    1XX1 [9BDF]
+                </td>
+                <td>
+                    <img class="S-2" regexp="[mnp][8ACE]" src="gfx/TR-1XX0.png?raw=true" title="connected to the top but NOT to the right">
+                    1XX0 [8ACE]
+                </td>
+                <td class="junction">
+                    <img class="Jv-1" regexp="(npn|pnp)(L?R)" src="gfx/TR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
+                    _X_1 (L?R)
+                </td>
+            </tr>
+        </table></td>
+    </tr>
+
+
+    <tr>
+        <td class="BL"><table>
+            <tr>
+                <td class="quadrant-label" rowspan="3"><div id="BL"></div></td>
+                <td class="junction" rowspan="2">
+                    <img class="Jv-0 Jv-1" regexp="(npn|pnp)(LR?|R)" src="gfx/BL-L-or-R-or-LR.png?raw=true" title="junction: base connected to the left or right or both (top and bottom implicit)">
+                    _<strike>0</strike>_<strike>0</strike> (LR?|R)
+                </td>
+                <td>
+                    <img class="S-2" regexp="[mnp][23AB]" src="gfx/BL-X01X.png?raw=true" title="connected to the bottom but NOT to the left">
+                    X01X [23AB]
+                </td>
+                <td>
+                    <img class="S-4" regexp="[mnp][67EF]" src="gfx/BL-X11X.png?raw=true" title="connected to the left and bottom">
+                    X11X [67EF]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="S-1" regexp="[mnp][018]" src="gfx/BL-0000-or-0001-or-1000.png?raw=true" title="NOT connected to the left and NOT to the bottom and NOT to *both*, right and top">
+                    <strike>1</strike>00<strike>1</strike> [018]
+                </td>
+                <td>
+                    <img class="S-3" regexp="[mnp][45CD]" src="gfx/BL-X10X.png?raw=true" title="connected to the left but NOT to the bottom">
+                    X10X [45CD]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="S-0" regexp="[mnp][9]" src="gfx/BL-1001.png?raw=true" title="connected to the top and to the right but NOT to left and bottom">
+                    1001 [9]
+                </td>
+                <td class="junction">
+                    <img class="Jh-0" regexp="(npn|pnp)(T)" src="gfx/BL-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
+                    1_0_ (T)
+                </td>
+                <td class="junction">
+                    <img class="Jh-1" regexp="(npn|pnp)(T?B)" src="gfx/BL-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
+                    X_1_ (T?B)
+                </td>
+            </tr>
+        </table></td>
+
+
+        <td class="BR"><table>
+            <tr>
+                <td>
+                    <img class="S-4" regexp="[mnp][37BF]" src="gfx/BR-XX11.png?raw=true" title="connected to the bottom and right">
+                    XX11 [37BF]
+                </td>
+                <td>
+                    <img class="S-3" regexp="[mnp][26AE]" src="gfx/BR-XX10.png?raw=true" title="connected to the bottom but NOT to the right">
+                    XX10 [26AE]
+                </td>
+                <td class="junction">
+                    <img class="Jv-1" regexp="(npn|pnp)(L?R)" src="gfx/BR-R-or-LR.png?raw=true" title="junction: base connected to the right and maybe to the left (top and bottom implicit)">
+                    _X_1 (L?R)
+                </td>
+                <td class="quadrant-label" rowspan="3"><div id="BR"></div></td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="S-2" regexp="[mnp][159D]" src="gfx/BR-XX01.png?raw=true" title="connected to the right but NOT to the bottom">
+                    XX01 [159D]
+                </td>
+                <td>
+                    <img class="S-1" regexp="[mnp][048]" src="gfx/BR-0000-or-0100-or-1000.png?raw=true" title="NOT connected to the bottom and NOT to the right and NOT to *both*, top and left">
+                    <strike>11</strike>00 [048]
+                </td>
+                <td class="junction">
+                    <img class="Jv-0" regexp="(npn|pnp)(L)" src="gfx/BR-L.png?raw=true" title="junction: base connected to the left but NOT to the right (top and bottom implicit)">
+                    _1_0 (L)
+                </td>
+            </tr>
+            <tr>
+                <td class="junction">
+                    <img class="Jh-1" regexp="(npn|pnp)(T?B)" src="gfx/BR-B-or-TB.png?raw=true" title="junction: base connected to the bottom and maybe to the top (left and right implicit)">
+                    X_1_ (T?B)
+                </td>
+                <td class="junction">
+                    <img class="Jh-0" regexp="(npn|pnp)(T)" src="gfx/BR-T.png?raw=true" title="junction: base connected to the top but NOT to the bottom (left and right implicit)">
+                    1_0_ (T)
+                </td>
+                <td>
+                    <img class="S-0" regexp="[mnp][C]" src="gfx/BR-1100.png?raw=true" title="connected to the top and left but NOT to bottom and right">
+                    1100 [C]
+                </td>
+            </tr>
+        </table></td>
+
+    </tr>
+    </table>
+
+    <table id="play" style="position:absolute;left:950px;top:430px;border:1px solid black;">
+    <tr>
+        <td>
+            <table id="mode">
+            <tr>
+                <td>
+                    <input type="radio" name="mode" value="S" checked>Non-junction (S)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="mode" value="Jv">Vert. junction (Jv)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="mode" value="Jh">Horiz. junction (Jh)
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td>
+            <table id="directions">
+            <tr>
+                <td></td>
+                <td></td>
+                <td>T</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input class="dir" S Jh type="checkbox" name="T"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>L</td>
+                <td><input class="dir" S Jv type="checkbox" name="L"></td>
+                <td></td>
+                <td><input class="dir" S Jv type="checkbox" name="R"></td>
+                <td>R</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input class="dir" S Jh type="checkbox" name="B"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>B</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </table>
+        </td>
+    </tr>
+        <td colspan="2">
+            <table id="classes">
+            <tr>
+                <td><input type="radio" name="class" S Jh Jv value="-" checked></td>
+                <td><input type="radio" name="class" S Jh Jv value="0"></td>
+                <td><input type="radio" name="class" S Jh Jv value="1"></td>
+                <td><input type="radio" name="class" S value="2"></td>
+                <td><input type="radio" name="class" S value="3"></td>
+                <td><input type="radio" name="class" S value="4"></td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>0</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            </table>
+        </td>
+    <tr>
+    </tr>
+    </table>
+
+ </body>
+</html>

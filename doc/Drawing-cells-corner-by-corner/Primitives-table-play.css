@@ -1,0 +1,19 @@
+#play td {
+    color: black;
+    text-align: center;
+    border:none;
+}
+
+#play #mode td {
+    text-align: left;
+    padding-right:8px;
+}
+
+#play #directions {
+    border-left:1px dotted black;
+}
+
+#play #classes {
+    width: 100%;
+    border-top:1px dotted black;
+}

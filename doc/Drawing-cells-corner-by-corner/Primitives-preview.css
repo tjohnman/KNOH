@@ -1,0 +1,64 @@
+#preview {
+    position:absolute;left:950px;top:50px;
+    width: 350px;
+    height: 350px;
+    border: 0px solid red;
+}
+
+#preview div {
+    position: absolute;
+    width: 116px;
+    height: 116px;
+    overflow: hidden;
+    border: 1px solid white;
+}
+
+#preview div[x="0"] { left: 0px; }
+#preview div[x="1"] { left: 117px; }
+#preview div[x="2"] { left: 234px; }
+
+#preview div[y="0"] { top: 0px; }
+#preview div[y="1"] { top: 117px; }
+#preview div[y="2"] { top: 234px; }
+
+#preview div img {
+    position: absolute;
+    border:none;
+    width:127px;    /* workaround IE-bug: make img look like it's already */
+    height:127px;   /* been loaded. */
+}
+
+#preview div img[layer=background] {
+    z-index:0;
+    width:136px;
+    height:136px;
+}
+#preview div img[layer=silicon] {
+    z-index:1;
+}
+#preview div img[layer=via] {
+    z-index:2;
+}
+#preview div img[layer=metal] {
+    z-index:3;
+}
+
+#preview div img.TL {
+    top: -10px;
+    left: -10px;
+}
+
+#preview div img.BL {
+    top: -1px;
+    left: -10px;
+}
+
+#preview div img.BR {
+    top: -1px;
+    left: -1px;
+}
+
+#preview div img.TR {
+    top: -10px;
+    left: -1px;
+}
